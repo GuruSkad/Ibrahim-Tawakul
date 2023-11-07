@@ -3,7 +3,7 @@ package IbrahimTawakul.pageobjects;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class LoginPageObjects {
+public class LoginPageLocators {
 
 	@FindBy(id = "username")
 	WebElement userNameId;
