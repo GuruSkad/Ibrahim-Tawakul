@@ -8,17 +8,16 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeSuite;
 
 import IbrahimTawakul.pageobjects.LandingPage;
 
 public class BaseTest {
 
 	public WebDriver driver;
+
 	public LandingPage landingPage;
 
 	public WebDriver initializeDriver() throws IOException {
-
 		Properties property = new Properties();
 		FileInputStream FIS = new FileInputStream(
 				System.getProperty("user.dir") + "\\src\\main\\java\\IbrahimTawakul\\resources\\GlobalData.properties");
@@ -27,9 +26,9 @@ public class BaseTest {
 		System.out.println(browserName);
 
 		if (browserName.equalsIgnoreCase("chrome")) {
-			WebDriver driver = new ChromeDriver();
+			driver = new ChromeDriver();
 		} else if (browserName.equalsIgnoreCase("firefox")) {
-			WebDriver driver = new FirefoxDriver();
+			driver = new FirefoxDriver();
 		} else {
 			System.out.println("Error");
 		}
@@ -39,7 +38,7 @@ public class BaseTest {
 
 	}
 
-	@BeforeSuite
+	@BeforeMethod
 	public LandingPage launchApplication() throws IOException {
 		driver = initializeDriver();
 		landingPage = new LandingPage(driver);

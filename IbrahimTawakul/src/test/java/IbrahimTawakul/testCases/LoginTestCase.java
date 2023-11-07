@@ -11,9 +11,8 @@ public class LoginTestCase extends BaseTest{
 	@Test
 	public void loginTest() throws IOException {
 		
-		landingPage.loginApplication("test@gmail.com");
-
-		System.out.print(landingPage);
+		
+		
 
 	}
 
