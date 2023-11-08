@@ -2,6 +2,7 @@ package IbrahimTawakul.testComponents;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.Properties;
 
 import org.openqa.selenium.WebDriver;
@@ -34,6 +35,7 @@ public class BaseTest {
 		}
 
 		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
 		return driver;
 
 	}

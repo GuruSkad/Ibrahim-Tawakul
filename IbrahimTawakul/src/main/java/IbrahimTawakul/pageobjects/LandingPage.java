@@ -9,9 +9,9 @@ public class LandingPage {
 
 	public LandingPage(WebDriver driver) {
 		this.driver = driver;
-		PageFactory.initElements(driver, this);
+
 	}
-	
+
 	public void goTo() {
 		driver.get("https://ibrahimtawakul.hexagonsolutions.dev/");
 	}

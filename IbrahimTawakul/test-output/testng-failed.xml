@@ -5,8 +5,11 @@
     <classes>
       <class name="IbrahimTawakul.testCases.LoginTestCase">
         <methods>
+          <include name="testSignUpLink"/>
           <include name="launchApplication"/>
-          <include name="loginTest"/>
+          <include name="testEmptyPassword"/>
+          <include name="testValidLogin"/>
+          <include name="initializeLoginPageLocators"/>
         </methods>
       </class> <!-- IbrahimTawakul.testCases.LoginTestCase -->
     </classes>
