@@ -1,5 +1,8 @@
 package IbrahimTawakul.pageobjects;
 
+import java.util.List;
+
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -13,6 +16,9 @@ public class LoginPageLocators {
 		PageFactory.initElements(driver, this);
 	}
 
+	@FindBy(css = "div.text-center.loginLogo")
+	public WebElement loginLogo;
+	
 	@FindBy(name = "username")
 	public WebElement userName;
 
@@ -20,10 +26,10 @@ public class LoginPageLocators {
 	public WebElement password1;
 
 	@FindBy(xpath = "//button[contains(text(),'Log in')]")
-	public WebElement login;
+	public WebElement loginButton;
 
 	@FindBy(css = "[class*='signUpBtn']")
-	public WebElement signUp;
+	public WebElement signUpButton;
 
 	@FindBy(xpath = "//a[contains(text(),'Reset Password')]")
 	public WebElement resetPassword;
@@ -43,8 +49,11 @@ public class LoginPageLocators {
 	@FindBy(css = "input[type='email']")
 	WebElement resetMail;
 	
-	@FindBy(className = "visually-hidden")
+	@FindBy(xpath = "//span[contains(text(),'Next')]")
 	public WebElement nextButton;
+	
+	@FindBy(tagName = "a")
+    public List<WebElement> links;
 
 	public void enterUsername(String username) {
 		userName.sendKeys(username);
@@ -53,10 +62,15 @@ public class LoginPageLocators {
 	public void enterPassword(String password) {
 		password1.sendKeys(password);
 	}
+	
+	public void clearFields() {
+		userName.clear();
+		password1.clear();
+	}
 
 	public void loginApplication(String username, String password) {
 		userName.sendKeys(username);
 		password1.sendKeys(password);
-		login.click();
+		loginButton.click();
 	}
 }
