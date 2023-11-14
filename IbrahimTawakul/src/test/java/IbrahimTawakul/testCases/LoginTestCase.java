@@ -190,12 +190,6 @@ public class LoginTestCase extends BaseTest {
 	}
 
 	// @Test
-	public void testForgotPasswordLink() {
-		login.forgotPassword.click();
-		// check once the link gets activated
-	}
-
-	// @Test
 	public void testResetPasswordLink() {
 		login.resetPassword.click();
 		// Add code to handle the "Reset Password" page and assert relevant elements
