@@ -58,7 +58,7 @@ public class BaseTest {
 	}
 	
 	public WebElement waitForElementToBeVisible(WebElement element) {
-	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(12));
 	    return wait.until(ExpectedConditions.visibilityOf(element));
 	}
 

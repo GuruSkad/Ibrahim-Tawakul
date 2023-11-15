@@ -78,7 +78,7 @@ public class LoginTestCase extends BaseTest {
 		softAssert.assertAll();
 	}
 
-	//@Test
+	@Test
 	public void buttonHoverColorChange() {
 		String origLoginColor = login.loginButton.getCssValue("background-color");
 		String origSignupColor = login.signUpButton.getCssValue("background-color");
@@ -93,7 +93,7 @@ public class LoginTestCase extends BaseTest {
 
 	}
 
-	//@Test
+	@Test
 	public void testLogoDisplay() {
 		assert login.loginLogo.isDisplayed() : "Logo is not displayed on the page";
 	}

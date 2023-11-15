@@ -20,7 +20,7 @@ public class LoginPageLocators {
 	@FindBy(css = "div.text-center.loginLogo")
 	public WebElement loginLogo;
 
-	@FindBy(name = "errorMessage1")
+	@FindBy(name = "errorMessage")
 	public WebElement getErrorMessage;
 	
 	@FindBy(name = "username")

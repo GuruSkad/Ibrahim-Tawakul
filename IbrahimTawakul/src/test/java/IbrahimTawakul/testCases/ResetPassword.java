@@ -61,7 +61,7 @@ public class ResetPassword extends BaseTest {
 	}
 
 	@Test
-	public void resetPasswordButton() {
+	public void resetPasswordBtn() {
 		login.gotoResetPassword();
 		String resetText = login.resetPassText.getText();
 		Assert.assertTrue(resetText.contains("Enter Your Email ID"));
