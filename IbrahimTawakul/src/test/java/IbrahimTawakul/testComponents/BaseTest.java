@@ -13,6 +13,7 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import IbrahimTawakul.pageobjects.LandingPage;
 
@@ -47,7 +48,7 @@ public class BaseTest {
 
 	}
 
-	@BeforeMethod
+	@BeforeClass
 	public LandingPage launchApplication() throws IOException {
 		driver = initializeDriver();
 		landingPage = new LandingPage(driver);

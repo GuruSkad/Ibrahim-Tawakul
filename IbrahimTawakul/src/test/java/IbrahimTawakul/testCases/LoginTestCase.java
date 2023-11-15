@@ -2,6 +2,7 @@ package IbrahimTawakul.testCases;
 
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -24,7 +25,7 @@ public class LoginTestCase extends BaseTest {
 		login.clearFields();
 	}
 
-	// @Test
+	@Test
 	public void linkValidation() {
 		SoftAssert assert1 = new SoftAssert();
 		for (WebElement link : login.links) {
@@ -54,20 +55,18 @@ public class LoginTestCase extends BaseTest {
 		assert1.assertAll();
 	}
 
-	// @Test
-	public void testValidLogin() throws IOException, InterruptedException {
-		login.enterUsername("Automation");
-		login.enterPassword("Testing");
-		login.loginButton.click();
+	@Test
+	public void testValidLogin() {
+		login.loginApplication("anmol@skadits.com", "wY5+zG7!");
 		for (int i = 0; i < 3; i++) {
 			login.nextButton.click();
 		}
 		String title = driver.getTitle();
-		assert title.equals("Expected title");
+		assert title.equals("Ibrahim Tawakul");
 
 	}
 
-	// @Test
+	@Test
 	public void passwordVisibility() {
 		String password = "Testing";
 		login.clearFields();
@@ -79,7 +78,7 @@ public class LoginTestCase extends BaseTest {
 		softAssert.assertAll();
 	}
 
-	// @Test
+	//@Test
 	public void buttonHoverColorChange() {
 		String origLoginColor = login.loginButton.getCssValue("background-color");
 		String origSignupColor = login.signUpButton.getCssValue("background-color");
@@ -94,12 +93,12 @@ public class LoginTestCase extends BaseTest {
 
 	}
 
-	// @Test
+	//@Test
 	public void testLogoDisplay() {
 		assert login.loginLogo.isDisplayed() : "Logo is not displayed on the page";
 	}
 
-	@Test
+	//@Test
 	public void caseInsensitiveUsername() throws InterruptedException {
 		login.loginApplication("automationUSER", "testing");
 		// this test need to be modified once the requirements is clear
@@ -112,7 +111,7 @@ public class LoginTestCase extends BaseTest {
 		// assert title.equals("Expected title");
 	}
 
-	@Test
+	//@Test
 	public void specialCharacterInPass() throws InterruptedException {
 		login.loginApplication("Automation", "@test#&g");
 		// this also need modification
@@ -155,7 +154,7 @@ public class LoginTestCase extends BaseTest {
 
 	}
 
-	// @Test
+	//@Test
 	public void testEmptyUsername() throws IOException, InterruptedException {
 		login.enterUsername(" ");
 		login.enterPassword("Password123");
@@ -165,7 +164,7 @@ public class LoginTestCase extends BaseTest {
 
 	}
 
-	// @Test
+	//@Test
 	public void testEmptyPassword() throws IOException, InterruptedException {
 		login.enterUsername("ValidUser");
 		login.enterPassword("  ");
@@ -178,14 +177,14 @@ public class LoginTestCase extends BaseTest {
 	// @Test
 	public void inactiveAccount() {
 		login.loginApplication("inactive user", "testing");
-		String errorMessage = login.getErrorMessage();
+		String errorMessage = login.getErrorMessage.getText();
 		Assert.assertTrue(errorMessage.contains("inactive"), "Login error message");
 	}
 
 	// @Test
 	public void updatedPassword() {
 		login.loginApplication("Automation", "oldpassword");
-		String errorMessage = login.getErrorMessage();
+		String errorMessage = login.getErrorMessage.getText();
 		Assert.assertTrue(errorMessage.contains("change password"), "Login error message");
 	}
 

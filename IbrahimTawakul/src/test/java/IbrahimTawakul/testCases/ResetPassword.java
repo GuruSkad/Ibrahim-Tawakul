@@ -138,6 +138,15 @@ public class ResetPassword extends BaseTest {
 		login.submitOtp();
 		Assert.assertTrue(login.otpVrfText.getText().contains("OTP Verification"));
 	}
+	
+	//@Test
+		public void emptyOtp() {
+			login.gotoResetPassword();
+			login.sendEmailForPswdReset("anmol@skadits.com");
+			waitForElementToBeVisible(login.otpVrfText);
+			login.submitOtp();
+			Assert.assertTrue(login.otpVrfText.getText().contains("OTP is required"));
+		}
 
 	@AfterClass
 	public void teardown() {
