@@ -6,6 +6,7 @@ import java.time.Duration;
 import java.util.Properties;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -56,11 +57,52 @@ public class BaseTest {
 		return landingPage;
 
 	}
-	
+
 	public WebElement waitForElementToBeVisible(WebElement element) {
-	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(12));
-	    return wait.until(ExpectedConditions.visibilityOf(element));
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(12));
+		return wait.until(ExpectedConditions.visibilityOf(element));
 	}
 
+	public void scrollPage(ScrollType scrollType, WebElement element, int x, int y) {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+
+		switch (scrollType) {
+		case TO_ELEMENT:
+			js.executeScript("arguments[0].scrollIntoView(true);", element);
+			break;
+
+		case TO_TOP:
+			js.executeScript("window.scrollTo(0, 0);");
+			break;
+
+		case TO_BOTTOM:
+			js.executeScript("window.scrollTo(0, document.body.scrollHeight);");
+			break;
+
+		case BY_COORDINATES:
+			js.executeScript("window.scrollTo(" + x + "," + y + ");");
+			break;
+
+		default:
+			throw new IllegalArgumentException("Invalid ScrollType provided: " + scrollType);
+		}
+	}
+
+	public enum ScrollType {
+		TO_ELEMENT, TO_TOP, TO_BOTTOM, BY_COORDINATES
+	}
+
+	/*
+	 * to scroll upto a webelement:- scrollPage(ScrollType.TO_ELEMENT,
+	 * yourWebElement, 0, 0);
+	 * 
+	 * to scroll to the top of the page:- scrollPage(ScrollType.TO_TOP, null, 0, 0);
+	 * 
+	 * to scroll to the bottom of the page:- scrollPage(ScrollType.TO_BOTTOM, null, 0,
+	 * 0);
+	 * 
+	 * to scroll by given X, Y coordinates (give x and y value):-
+	 * scrollPage(ScrollType.BY_COORDINATES, null, 500, 1000);
+	 */
 
 }

@@ -124,14 +124,12 @@ public class LoginTestCase extends BaseTest {
 		// assert title.equals("Expected title");
 	}
 
-	//@Test
+	@Test
 	public void userPassFeildValidation() {
 		login.clearFields();
+		login.loginApplication("username", "password");
 		String usernameText = login.userName.getAttribute("value");
-		String passwordText = login.password1.getAttribute("value");
-		System.out.println(usernameText);
-		System.out.println(passwordText);
-		
+		String passwordText = login.password1.getAttribute("value");		
 		assert usernameText.equalsIgnoreCase("username");
 		assert passwordText.equalsIgnoreCase("password");
 		
