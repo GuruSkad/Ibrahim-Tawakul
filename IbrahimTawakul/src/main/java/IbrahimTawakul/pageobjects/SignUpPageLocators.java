@@ -1,6 +1,5 @@
 package IbrahimTawakul.pageobjects;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -15,8 +14,14 @@ public class SignUpPageLocators {
 		PageFactory.initElements(driver, this);
 	}
 	
+	@FindBy(css = "label[for='CompanyName']")
+	public WebElement cmpPlaceholder;
+	
 	@FindBy(xpath = "//div[3]//div/img")
 	public WebElement logo;
+	
+	@FindBy(className = "logInForm")
+	public WebElement loginBtn;
 	
 	@FindBy(css = ".signUpBtn.signUpForm")
 	public WebElement signUpButton;
@@ -24,13 +29,13 @@ public class SignUpPageLocators {
 	@FindBy(name = "CompanyName")
 	public WebElement companyName;
 	
-	@FindBy(name = "ContactNumber")
+	@FindBy(id = "phone")
 	public WebElement contactNumber;
 	
-	@FindBy(name = "email")
+	@FindBy(name = "EmailId")
 	public WebElement email;
 	
-	@FindBy(name = "areaAddress")
+	@FindBy(id = "areaAddress")
 	public WebElement address;
 	
 	@FindBy(name = "city")
@@ -48,8 +53,27 @@ public class SignUpPageLocators {
 	@FindBy(xpath = "//*[@id=\"signupForm\"]/button")
 	public WebElement submitBtn;
 	
+	@FindBy(xpath = "//*[@id=\"signupForm\"]/div[2]/div/div/span")
+	public WebElement contErrMsg;
+	
+	@FindBy(xpath = "//*[@id=\"signupForm\"]/div[1]/div")
+	public WebElement cmpnyErrMsg;
+	
+	@FindBy(xpath = "//*[@id=\"signupForm\"]/div[3]/div/span")
+	public WebElement emlErrMsg;
+	
+	@FindBy(xpath = "//h1[contains(text(),'Login')]")
+	public WebElement loginText;
+	
 	public void gotoSignup() {
 		signUpButton.click();
+	}
+	
+	public void submit() {
+		submitBtn.click();
+	}
+	public void returntoLogin() {
+		loginBtn.click();
 	}
 	
 	public void clearFeilds() {

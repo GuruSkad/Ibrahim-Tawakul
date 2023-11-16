@@ -10,6 +10,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -21,7 +22,7 @@ import IbrahimTawakul.pageobjects.LandingPage;
 public class BaseTest {
 
 	public WebDriver driver;
-
+	ChromeOptions options = new ChromeOptions();
 	public LandingPage landingPage;
 
 	public WebDriver initializeDriver() throws IOException {
@@ -32,7 +33,8 @@ public class BaseTest {
 		String browserName = property.getProperty("browser");
 
 		if (browserName.equalsIgnoreCase("chrome")) {
-			driver = new ChromeDriver();
+			driver = new ChromeDriver(options);
+			options.addArguments("clear-automation-profile-settings");
 		} else if (browserName.equalsIgnoreCase("firefox")) {
 			driver = new FirefoxDriver();
 		} else if (browserName.equalsIgnoreCase("edge")) {
@@ -63,6 +65,11 @@ public class BaseTest {
 		return wait.until(ExpectedConditions.visibilityOf(element));
 	}
 
+	 public WebElement waitForClickable(WebElement element) {
+	        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(12));
+	        return wait.until(ExpectedConditions.elementToBeClickable(element));
+	    }
+	 
 	public void scrollPage(ScrollType scrollType, WebElement element, int x, int y) {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 
