@@ -5,22 +5,22 @@ import org.testng.annotations.DataProvider;
 public class SignUpTestData {
 	@DataProvider(name = "validSignUpData")
 	public static Object[][] getValidSignUpData() {
-		return new Object[][] { { "CompanyA", "example@gmail.com", "1234567890", "Address123", "CityA", },};
+		return new Object[][] { { "CompanyA a6", "exampl6@gmail.com", "1234567899", "Address123", "CityA", },};
 	}
 
 	@DataProvider(name = "unnecesarrySpace")
 	public static Object[][] extraSpace() {
-		return new Object[][] { { "CompanyA1", "email @example.com", "12345 67890", "Address123", "CityA", }, };
+		return new Object[][] { { "CompanyA1 b2", "email3 @example.com", "12345 67872", "Address123", "CityA", }, };
 	}
 
 	@DataProvider(name = "mandatoryInfo")
 	public static Object[][] mandatory() {
-		return new Object[][] { { "Company B", "email.12@example.com", "1234567890", " ", " ", }, };
+		return new Object[][] { { "Company Bb4", "email.12d@example.com", "1234567862", " ", " ", }, };
 	}
 	
 	@DataProvider(name = "invalidEmail")
 	public static Object[][] InvalidEmail() {
-		return new Object[][] { { "Company B1", "email.12example.com", "1234567891", " ", " ", }, };
+		return new Object[][] { { "Company B2", "email.12example.com", "1234567892", " ", " ", }, };
 	}
 	
 	@DataProvider(name = "registeredMail")

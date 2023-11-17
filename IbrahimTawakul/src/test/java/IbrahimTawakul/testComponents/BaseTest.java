@@ -34,7 +34,7 @@ public class BaseTest {
 
 		if (browserName.equalsIgnoreCase("chrome")) {
 			driver = new ChromeDriver(options);
-			options.addArguments("clear-automation-profile-settings");
+			//options.addArguments("clear-automation-profile-settings");
 		} else if (browserName.equalsIgnoreCase("firefox")) {
 			driver = new FirefoxDriver();
 		} else if (browserName.equalsIgnoreCase("edge")) {
@@ -51,7 +51,7 @@ public class BaseTest {
 
 	}
 
-	@BeforeClass
+	@BeforeMethod
 	public LandingPage launchApplication() throws IOException {
 		driver = initializeDriver();
 		landingPage = new LandingPage(driver);

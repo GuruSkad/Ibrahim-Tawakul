@@ -82,7 +82,6 @@ public class SignUpPageLocators {
 		email.clear();
 		address.clear();
 		city.clear();
-		state.clear();
 	}
 	
 	public void selectState(String Dubaia) {

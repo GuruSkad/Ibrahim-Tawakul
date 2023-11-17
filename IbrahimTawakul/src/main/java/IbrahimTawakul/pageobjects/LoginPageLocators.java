@@ -19,6 +19,9 @@ public class LoginPageLocators {
 
 	@FindBy(css = "div.text-center.loginLogo")
 	public WebElement loginLogo;
+	
+	@FindBy(id = "logout")
+	public WebElement logoutbtn;
 
 	@FindBy(name = "errorMessage")
 	public WebElement getErrorMessage;

@@ -65,6 +65,16 @@ public class LoginTestCase extends BaseTest {
 		assert title.equals("Ibrahim Tawakul");
 
 	}
+	
+	@Test
+	public void multipleLoginClick() {
+		login.userName.sendKeys("anmoltiwary4@gmail.com");
+		for(int i=0; i<10; i++) {		
+		login.loginButton.click();
+		}
+		String passErrTxt = login.emptyPassMsg.getText();
+		assert passErrTxt.contains("Password is required");
+	}
 
 	@Test
 	public void passwordVisibility() {
@@ -111,7 +121,7 @@ public class LoginTestCase extends BaseTest {
 		// assert title.equals("Expected title");
 	}
 
-	//@Test
+	@Test
 	public void specialCharacterInPass() throws InterruptedException {
 		login.loginApplication("Automation", "@test#&g");
 		// this also need modification
@@ -172,7 +182,7 @@ public class LoginTestCase extends BaseTest {
 
 	}
 
-	// @Test
+	@Test
 	public void inactiveAccount() {
 		login.loginApplication("inactive user", "testing");
 		String errorMessage = login.getErrorMessage.getText();
@@ -194,13 +204,18 @@ public class LoginTestCase extends BaseTest {
 
 	// @Test
 	public void testSuccessfulLogout() {
+			login.loginApplication("anmol@skadits.com", "wY5+zG7!");
+			for (int i = 0; i < 3; i++) {
+				login.nextButton.click();
+			}
+			String title = driver.getTitle();
+			assert title.equals("Ibrahim Tawakul");
+			login.logoutbtn.click();
 
-	}
+		}
 
-	// @Test
-	public void testUnsuccessfulLogout() {
 
-	}
+
 
 	@AfterClass
 	public void tearDown() {
