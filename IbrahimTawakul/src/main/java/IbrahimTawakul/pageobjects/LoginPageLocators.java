@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.util.List;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -20,6 +21,9 @@ public class LoginPageLocators {
 	@FindBy(css = "div.text-center.loginLogo")
 	public WebElement loginLogo;
 	
+	@FindBy(xpath = "//*[@id=\"page-header-user-dropdown\"]/span/span")
+	WebElement userBtn;
+		
 	@FindBy(id = "logout")
 	public WebElement logoutbtn;
 
@@ -71,6 +75,12 @@ public class LoginPageLocators {
 		password1.sendKeys(password);
 		loginButton.click();
 	}
+	
+	public void logout()
+	{
+		userBtn.click();
+		logoutbtn.click();
+	}
 
 	// Locators for forget password module
 
@@ -98,17 +108,29 @@ public class LoginPageLocators {
 	@FindBy(id = "sucessmessage")
 	public WebElement successMessage;
 
-	@FindBy(className = "invalid-feedback")
+	@FindBy(xpath  = "//form/div[1]/div/span")
 	public WebElement errorMessage;
 	
-	@FindBy(className = "text-center")
+	@FindBy(xpath = "//div/div[6]/h1")
 	public WebElement otpVrfText;
 	
-	@FindBy(xpath = "//div/div[6]/form/div[2]/button")
+	@FindBy(xpath = "//button[contains(text(),'Verify and Reset Password')]")
 	WebElement submitOtpBtn;
 	
 	@FindBy(xpath = "//div[6]/form/div[2]/span")
 	public WebElement otpreqMsg;
+	
+	@FindBy(id="digit1")
+	public WebElement otpBox1;
+	
+	@FindBy(id="digit2")
+	public WebElement otpBox2;
+	
+	@FindBy(id="digit3")
+	public WebElement otpBox3;
+	
+	@FindBy(id="digit4")
+	public WebElement otpBox4;
 	
 	@FindBy(xpath = "//div[6]/form/div[1]/div")
 	public WebElement otpBox;
@@ -128,9 +150,6 @@ public class LoginPageLocators {
 
 	public void sendEmailForPswdReset(String yourmail) {
 	    resetMail.sendKeys(yourmail);
-	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-	    wait.until(ExpectedConditions.elementToBeClickable(gnrtotpBtn));
-
-	    gnrtotpBtn.click();
+	    resetMail.sendKeys(Keys.ENTER);
 	}
 }

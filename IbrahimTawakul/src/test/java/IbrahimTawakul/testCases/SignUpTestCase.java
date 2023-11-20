@@ -71,7 +71,7 @@ public class SignUpTestCase extends BaseTest {
 
 	}
 
-	//@Test(dataProviderClass = SignUpTestData.class, dataProvider = "validSignUpData")
+	@Test(dataProviderClass = SignUpTestData.class, dataProvider = "validSignUpData")
 	public void validSignUpTest(String companyName, String email, String mobile, String address, String city) throws InterruptedException {
 		signUp.gotoSignup();
 		signUp.clearFeilds();
@@ -82,14 +82,21 @@ public class SignUpTestCase extends BaseTest {
 		signUp.city.sendKeys(city);
 		Select stateDropdown = new Select(signUp.state);
         stateDropdown.selectByIndex(2);
-        scrollPage(ScrollType.TO_ELEMENT,signUp.submitBtn, 0, 0);
-        waitForClickable(signUp.submitBtn);
-        signUp.submitBtn.click();
+        signUp.email.sendKeys(Keys.ENTER);
+//       scrollPage(ScrollType.TO_ELEMENT,signUp.submitBtn, 0, 0);
+//       waitForClickable(signUp.submitBtn);
+//        signUp.submitBtn.submit();
         
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.alertIsPresent());
-
-        Alert alert = driver.switchTo().alert();
+        String sucessMsg = signUp.confirmationText.getText();
+        System.out.println(sucessMsg);
+        signUp.confirmationText.sendKeys(Keys.TAB);
+        signUp.confirmationText.sendKeys(Keys.ENTER);
+       // signUp.continueBtn.click();
+        
+//        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+//        wait.until(ExpectedConditions.alertIsPresent());
+//
+//        Alert alert = driver.switchTo().alert();
 //        String confirmationMessage = alert.getText();
 //        alert.accept();
 //        assert confirmationMessage.contains("Email");

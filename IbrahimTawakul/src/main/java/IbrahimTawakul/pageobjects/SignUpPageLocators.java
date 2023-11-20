@@ -6,6 +6,8 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 
+import net.bytebuddy.asm.MemberSubstitution.FieldValue;
+
 public class SignUpPageLocators {
 	WebDriver driver;
 
@@ -64,6 +66,12 @@ public class SignUpPageLocators {
 	
 	@FindBy(xpath = "//h1[contains(text(),'Login')]")
 	public WebElement loginText;
+	
+	@FindBy(xpath = "//*[@id=\"swal2-html-container\"]/h3")
+	public WebElement confirmationText;
+	
+	@FindBy(xpath = "//div[5]/div/div[6]/button[1]")
+	public WebElement continueBtn;
 	
 	public void gotoSignup() {
 		signUpButton.click();

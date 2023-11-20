@@ -14,6 +14,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -74,24 +75,25 @@ public class ResetPassword extends BaseTest {
 		Assert.assertTrue(login.loginText().contains("Login"));
 	}
 
-	// @Test (see it later)
+	@Test 
 	public void placeholderVerification() throws InterruptedException {
 		login.gotoResetPassword();
 		Thread.sleep(3000);
-		String placeholder = login.emailLabel.getAttribute("value");
+		String placeholder = login.emailLabel.getText();
 		System.out.println(placeholder);
 		Assert.assertTrue(placeholder.contains("Email ID"), "Placeholder is not found");
 	}
 
-	//@Test (need modification)
+	@Test
 	public void validEmail() throws InterruptedException {
 		login.gotoResetPassword();
 		login.sendEmailForPswdReset("anmol@skadits.com");
 		waitForElementToBeVisible(login.otpVrfText);
 		Assert.assertTrue(login.otpVrfText.getText().contains("OTP Verification"));
-		Thread.sleep(Duration.ofMinutes(2));
+		Thread.sleep(Duration.ofMinutes(1));		
 		login.submitOtp();
-
+		Thread.sleep(Duration.ofMinutes(1));
+		Assert.assertTrue(login.loginText().contains("Login"));
 	}
 
 	@Test
@@ -105,7 +107,7 @@ public class ResetPassword extends BaseTest {
 	@Test
 	public void emptyEmail() {
 		login.gotoResetPassword();
-		login.sendEmailForPswdReset(" ");
+		login.resetMail.sendKeys(Keys.ENTER);
 		Assert.assertTrue(login.errorMessage.getText().contains("Email Id is required"));
 
 	}	
@@ -113,42 +115,37 @@ public class ResetPassword extends BaseTest {
 	@Test
 	public void invalidEmailFormat() {
 		login.gotoResetPassword();
-		login.sendEmailForPswdReset("invalidmail.com");
+		login.resetMail.sendKeys("anmol.skad.com");
+		login.resetMail.sendKeys(Keys.ENTER);
 		Assert.assertTrue(login.errorMessage.getText().contains("Email is invalid"),
 				"invalid mail format not displayed");
 
 	}
-	
 	@Test
-	public void enterKey() {
-		login.gotoResetPassword();
-		login.resetMail.sendKeys("anymail.com#");
-		login.gnrtotpBtn.sendKeys(Keys.ENTER);		
-		Assert.assertTrue(login.errorMessage.getText().contains("Email is invalid"),
-				"invalid mail format not displayed");
-
-	}
-	
-	//@Test
-	public void incorrectOtp() {
+	public void incorrectOtp() throws InterruptedException {
 		login.gotoResetPassword();
 		login.sendEmailForPswdReset("anmol@skadits.com");
 		waitForElementToBeVisible(login.otpVrfText);
-		login.otpBox.sendKeys("5","3","1","2");
+		login.otpBox1.sendKeys("1");
+		login.otpBox2.sendKeys("2");
+		login.otpBox3.sendKeys("3");
+		login.otpBox4.sendKeys("4");
 		login.submitOtp();
 		Assert.assertTrue(login.otpVrfText.getText().contains("OTP Verification"));
 	}
 	
-	//@Test
-		public void emptyOtp() {
+	
+	@Test
+		public void emptyOtp() throws InterruptedException {
 			login.gotoResetPassword();
 			login.sendEmailForPswdReset("anmol@skadits.com");
 			waitForElementToBeVisible(login.otpVrfText);
+			Thread.sleep(2000);
 			login.submitOtp();
-			Assert.assertTrue(login.otpVrfText.getText().contains("OTP is required"));
+			Assert.assertTrue(login.otpreqMsg.getText().contains("OTP is required"));
 		}
 
-	@AfterClass
+	@AfterMethod
 	public void teardown() {
 		if (driver != null) {
 			driver.quit();

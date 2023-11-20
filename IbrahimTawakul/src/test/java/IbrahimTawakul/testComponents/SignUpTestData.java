@@ -5,7 +5,7 @@ import org.testng.annotations.DataProvider;
 public class SignUpTestData {
 	@DataProvider(name = "validSignUpData")
 	public static Object[][] getValidSignUpData() {
-		return new Object[][] { { "CompanyA a6", "exampl6@gmail.com", "1234567899", "Address123", "CityA", },};
+		return new Object[][] { { "CompanyA a8", "exampl8@gmail.com", "42355679", "Address123", "CityA", },};
 	}
 
 	@DataProvider(name = "unnecesarrySpace")

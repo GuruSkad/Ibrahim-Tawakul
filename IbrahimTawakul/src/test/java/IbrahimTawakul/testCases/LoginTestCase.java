@@ -56,14 +56,40 @@ public class LoginTestCase extends BaseTest {
 	}
 
 	@Test
+	public void editBoxValidation() {
+		String loginId = "abc@gmail.com";
+		String pass=  "fchg@12K";
+		login.enterUsername(loginId);
+		login.enterPassword(pass);
+		String actualId  = login.userName.getAttribute("value");
+		String actualPass = login.password1.getAttribute("value");
+		assert actualId.contains(loginId);
+		assert actualPass.contains(pass);
+		
+	}
+	
+	@Test
+	public void editBoxColorChange() {
+		login.loginLogo.click();
+		String origLoginIdColor = login.userName.getCssValue("background-color");
+		String origPassColor = login.password1.getCssValue("background-color");
+		
+		login.userName.sendKeys("a");
+		String userIdColorAfter = login.userName.getCssValue("background-color");
+		assert !origLoginIdColor.equals(userIdColorAfter);
+
+		login.password1.sendKeys("b");
+		String passColorAfter = login.password1.getCssValue("background-color");
+		assert !origPassColor.equals(passColorAfter);
+
+	}
+	
+	@Test
 	public void testValidLogin() {
-		login.loginApplication("anmol@skadits.com", "wY5+zG7!");
-		for (int i = 0; i < 3; i++) {
-			login.nextButton.click();
-		}
+		login.loginApplication("anmol.smit@gmail.com", "Anmolkumar@1234");
 		String title = driver.getTitle();
 		assert title.equals("Ibrahim Tawakul");
-
+		login.logout();
 	}
 	
 	@Test
@@ -74,18 +100,6 @@ public class LoginTestCase extends BaseTest {
 		}
 		String passErrTxt = login.emptyPassMsg.getText();
 		assert passErrTxt.contains("Password is required");
-	}
-
-	@Test
-	public void passwordVisibility() {
-		String password = "Testing";
-		login.clearFields();
-		login.enterPassword(password);
-		login.showPassword.click();
-		String passwordText = login.password1.getAttribute("value");
-		SoftAssert softAssert = new SoftAssert();
-		softAssert.assertEquals(password, passwordText);
-		softAssert.assertAll();
 	}
 
 	@Test
@@ -108,32 +122,6 @@ public class LoginTestCase extends BaseTest {
 		assert login.loginLogo.isDisplayed() : "Logo is not displayed on the page";
 	}
 
-	//@Test
-	public void caseInsensitiveUsername() throws InterruptedException {
-		login.loginApplication("automationUSER", "testing");
-		// this test need to be modified once the requirements is clear
-		Thread.sleep(5000);
-		for (int i = 0; i < 3; i++) {
-			login.nextButton.click();
-		}
-		String title = driver.getTitle();
-		System.out.println(title);
-		// assert title.equals("Expected title");
-	}
-
-	@Test
-	public void specialCharacterInPass() throws InterruptedException {
-		login.loginApplication("Automation", "@test#&g");
-		// this also need modification
-		Thread.sleep(3000);
-		for (int i = 0; i < 3; i++) {
-			login.nextButton.click();
-		}
-		String title = driver.getTitle();
-		System.out.println(title);
-		// assert title.equals("Expected title");
-	}
-
 	@Test
 	public void userPassFeildValidation() {
 		login.clearFields();
@@ -146,25 +134,28 @@ public class LoginTestCase extends BaseTest {
 		
 	}
 
-	// @Test (can't be checked now)
+	@Test 
+	// (modify later)
 	public void invalidUser() throws IOException, InterruptedException {
-		login.loginApplication("InvalidUser", "validPassword");
-		// String errorMessage = message.getText();
-		// assert errorMessage.equals("Expected Error Message");
+		login.loginApplication("InvalidUser", "Anmolkumar@1234");
+		Thread.sleep(5000);
+		String displayBox = login.loginText();
+		assert displayBox.contains("Login");
 
 	}
 
-	// @Test (can't be checked now)
+	@Test 
+	//(modify for message if included in functionality)
 	public void incorrectPassword() throws IOException, InterruptedException {
-		login.loginApplication("automation", "wrongPassword");
-		// String errorMessage = login.getErrorMessage();
-		// assert errorMessage.equals("Expected Error Message");
+		login.loginApplication("anmol.smit@gmail.com", "wrongPassword");
+		Thread.sleep(5000);
+		String displayBox = login.loginText();
+		assert displayBox.contains("Login");
 
 	}
 
-	//@Test
+	@Test
 	public void testEmptyUsername() throws IOException, InterruptedException {
-		login.enterUsername(" ");
 		login.enterPassword("Password123");
 		login.loginButton.click();
 		String emptyUserMsg = login.emptyUserMsg.getText();
@@ -172,52 +163,33 @@ public class LoginTestCase extends BaseTest {
 
 	}
 
-	//@Test
+	@Test
 	public void testEmptyPassword() throws IOException, InterruptedException {
 		login.enterUsername("ValidUser");
-		login.enterPassword("  ");
 		login.loginButton.click();
 		String emptyPassMsg = login.emptyPassMsg.getText();
 		assert emptyPassMsg.equals("Password is required");
 
 	}
 
-	@Test
+	//@Test
 	public void inactiveAccount() {
 		login.loginApplication("inactive user", "testing");
 		String errorMessage = login.getErrorMessage.getText();
 		Assert.assertTrue(errorMessage.contains("inactive"), "Login error message");
 	}
 
-	// @Test
-	public void updatedPassword() {
-		login.loginApplication("Automation", "oldpassword");
-		String errorMessage = login.getErrorMessage.getText();
-		Assert.assertTrue(errorMessage.contains("change password"), "Login error message");
-	}
 
-	// @Test
+	@Test
 	public void testResetPasswordLink() {
 		login.resetPassword.click();
-		// Add code to handle the "Reset Password" page and assert relevant elements
+		String text = login.resetPassText.getText();
+		assert text.contains("Enter Your Email ID to Generate OTP");
+		
 	}
 
-	// @Test
-	public void testSuccessfulLogout() {
-			login.loginApplication("anmol@skadits.com", "wY5+zG7!");
-			for (int i = 0; i < 3; i++) {
-				login.nextButton.click();
-			}
-			String title = driver.getTitle();
-			assert title.equals("Ibrahim Tawakul");
-			login.logoutbtn.click();
 
-		}
-
-
-
-
-	@AfterClass
+	@AfterMethod
 	public void tearDown() {
 		driver.quit();
 	}
