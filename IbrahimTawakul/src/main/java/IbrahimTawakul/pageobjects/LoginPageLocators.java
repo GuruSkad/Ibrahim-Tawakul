@@ -1,9 +1,6 @@
 package IbrahimTawakul.pageobjects;
 
-import java.time.Duration;
 import java.util.List;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -24,7 +21,7 @@ public class LoginPageLocators {
 	@FindBy(xpath = "//*[@id=\"page-header-user-dropdown\"]/span/span")
 	WebElement userBtn;
 		
-	@FindBy(id = "logout")
+	@FindBy(xpath = "//span[contains(text(),'Logout')]")
 	public WebElement logoutbtn;
 
 	@FindBy(name = "errorMessage")

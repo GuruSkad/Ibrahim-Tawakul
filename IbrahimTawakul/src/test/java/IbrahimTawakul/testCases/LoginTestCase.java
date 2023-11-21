@@ -1,12 +1,10 @@
 package IbrahimTawakul.testCases;
 
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
+import org.openqa.selenium.JavascriptExecutor;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import java.io.IOException;
@@ -58,22 +56,22 @@ public class LoginTestCase extends BaseTest {
 	@Test
 	public void editBoxValidation() {
 		String loginId = "abc@gmail.com";
-		String pass=  "fchg@12K";
+		String pass = "fchg@12K";
 		login.enterUsername(loginId);
 		login.enterPassword(pass);
-		String actualId  = login.userName.getAttribute("value");
+		String actualId = login.userName.getAttribute("value");
 		String actualPass = login.password1.getAttribute("value");
 		assert actualId.contains(loginId);
 		assert actualPass.contains(pass);
-		
+
 	}
-	
+
 	@Test
 	public void editBoxColorChange() {
 		login.loginLogo.click();
 		String origLoginIdColor = login.userName.getCssValue("background-color");
 		String origPassColor = login.password1.getCssValue("background-color");
-		
+
 		login.userName.sendKeys("a");
 		String userIdColorAfter = login.userName.getCssValue("background-color");
 		assert !origLoginIdColor.equals(userIdColorAfter);
@@ -83,20 +81,45 @@ public class LoginTestCase extends BaseTest {
 		assert !origPassColor.equals(passColorAfter);
 
 	}
-	
+
 	@Test
-	public void testValidLogin() {
+	public void testValidLogin() throws InterruptedException {
 		login.loginApplication("anmol.smit@gmail.com", "Anmolkumar@1234");
 		String title = driver.getTitle();
 		assert title.equals("Ibrahim Tawakul");
+		Thread.sleep(3000);
+		String currentURL = driver.getCurrentUrl();
+		String expectedURL = "https://ibrahimtawakul.hexagonsolutions.dev/pages/vat-registration";
+		Assert.assertEquals(currentURL, expectedURL, "URLs don't match");
 		login.logout();
 	}
-	
+
+	@Test
+	public void testLoginSwitchTabsAndLogout() throws InterruptedException {
+		login.loginApplication("anmol.smit@gmail.com", "Anmolkumar@1234");
+		String originalWindow = driver.getWindowHandle();
+		((JavascriptExecutor) driver)
+				.executeScript("window.open('https://ibrahimtawakul.hexagonsolutions.dev/pages/vat-registration');");
+
+		for (String windowHandle : driver.getWindowHandles()) {
+			if (!windowHandle.equals(originalWindow)) {
+				driver.switchTo().window(windowHandle);
+				break;
+			}
+		}
+		login.logout();
+		driver.switchTo().window(originalWindow);
+		driver.navigate().refresh();
+		String currentURL = driver.getCurrentUrl();
+		String expectedURL = "https://ibrahimtawakul.hexagonsolutions.dev/login";
+		Assert.assertEquals(currentURL, expectedURL, "URLs don't match - Not on the login page");
+	}
+
 	@Test
 	public void multipleLoginClick() {
 		login.userName.sendKeys("anmoltiwary4@gmail.com");
-		for(int i=0; i<10; i++) {		
-		login.loginButton.click();
+		for (int i = 0; i < 10; i++) {
+			login.loginButton.click();
 		}
 		String passErrTxt = login.emptyPassMsg.getText();
 		assert passErrTxt.contains("Password is required");
@@ -127,14 +150,13 @@ public class LoginTestCase extends BaseTest {
 		login.clearFields();
 		login.loginApplication("username", "password");
 		String usernameText = login.userName.getAttribute("value");
-		String passwordText = login.password1.getAttribute("value");		
+		String passwordText = login.password1.getAttribute("value");
 		assert usernameText.equalsIgnoreCase("username");
 		assert passwordText.equalsIgnoreCase("password");
-		
-		
+
 	}
 
-	@Test 
+	@Test
 	// (modify later)
 	public void invalidUser() throws IOException, InterruptedException {
 		login.loginApplication("InvalidUser", "Anmolkumar@1234");
@@ -144,8 +166,8 @@ public class LoginTestCase extends BaseTest {
 
 	}
 
-	@Test 
-	//(modify for message if included in functionality)
+	@Test
+	// (modify for message if included in functionality)
 	public void incorrectPassword() throws IOException, InterruptedException {
 		login.loginApplication("anmol.smit@gmail.com", "wrongPassword");
 		Thread.sleep(5000);
@@ -172,24 +194,22 @@ public class LoginTestCase extends BaseTest {
 
 	}
 
-	//@Test
+	// @Test
 	public void inactiveAccount() {
 		login.loginApplication("inactive user", "testing");
 		String errorMessage = login.getErrorMessage.getText();
 		Assert.assertTrue(errorMessage.contains("inactive"), "Login error message");
 	}
 
-
 	@Test
 	public void testResetPasswordLink() {
 		login.resetPassword.click();
 		String text = login.resetPassText.getText();
 		assert text.contains("Enter Your Email ID to Generate OTP");
-		
+
 	}
 
-
-	@AfterMethod
+	// @AfterMethod
 	public void tearDown() {
 		driver.quit();
 	}
