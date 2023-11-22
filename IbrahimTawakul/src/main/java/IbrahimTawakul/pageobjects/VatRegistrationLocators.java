@@ -19,7 +19,7 @@ public class VatRegistrationLocators {
 	@FindBy(xpath = "//app-sidebar/div[1]/div[1]/a[1]/span[2]/img")
 	public WebElement logo;
 	
-	@FindBy(xpath = "//*[@id=\"navbar-nav\"]/li[1]/span")
+	@FindBy(xpath = "//span[contains(text(),'MENU')]")
 	public WebElement menuText;
 	
 	@FindBy(className = "ri-arrow-left-s-line")
@@ -43,6 +43,9 @@ public class VatRegistrationLocators {
 	@FindBy(xpath = "//form/div[2]/div[5]/div/label")
 	public WebElement dclrationUploadBtn;
 	
+	@FindBy(xpath = "//form/div[2]/div/h3")
+	public List<WebElement> documentsTitle;
+	
 	@FindBy(xpath = "//form/div[2]/div[1]/h3")
 	public WebElement tradeTittle;
 	
@@ -59,7 +62,7 @@ public class VatRegistrationLocators {
 	public WebElement dclrionTitel;
 	
 	@FindBy(className = "dwnldFieBtn")
-	public WebElement dwnldFilesBtn;
+	public WebElement dwnldSampleFilesBtn;
 	
 	@FindBy(id = "back-to-top")
 	public WebElement backToTopBtn;
@@ -70,6 +73,15 @@ public class VatRegistrationLocators {
 	@FindBy(id = "phone")
 	public WebElement mobileBox;
 	
+	@FindBy(xpath = "//ngx-intl-tel-input/div/div/div[1]")
+	public WebElement countryListDropdwnBtn;
+	
+	@FindBy(xpath = "//*[contains(@class, 'iti__country-list')]/li")
+	public List<WebElement> countriesList;
+	
+	@FindBy(xpath = "//ngx-intl-tel-input/div/div/div")
+	public WebElement searchCntryBx;
+	
 	@FindBy(xpath = "//div[1]/div[1]/div/div/span")
 	public WebElement emailErrTxt;
 	
@@ -77,13 +89,19 @@ public class VatRegistrationLocators {
 	public WebElement mobileErrTxt;
 	
 	@FindBy(xpath = "//*[@id=\"navbar-nav\"]/li/a/span")
-	public List<WebElement> itemList;
+	public List<WebElement> menuItems;
 	
 	@FindBy(xpath = "//form/div[4]/div/div")
-	public WebElement uploadedFiles;
+	public List<WebElement> uploadedFiles;
 	
-	@FindBy(xpath = "//form/div[2]/div/div/label")
+	@FindBy(xpath = "//form/div[2]/div/div/label/div/div")
 	public List<WebElement> uploadBoxes;
+	
+	@FindBy(xpath = "//button[contains(text(),'Make Payment')]")
+	public WebElement makePymntBtn;
+	
+	@FindBy(className = "submitWdoPaymnt.mt-4")
+	public WebElement submitWithoutPmntBtn;
 	
 	
 }

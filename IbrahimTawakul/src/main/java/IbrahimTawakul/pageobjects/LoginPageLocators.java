@@ -18,8 +18,8 @@ public class LoginPageLocators {
 	@FindBy(css = "div.text-center.loginLogo")
 	public WebElement loginLogo;
 	
-	@FindBy(xpath = "//*[@id=\"page-header-user-dropdown\"]/span/span")
-	WebElement userBtn;
+	@FindBy(xpath = "//*[@id=\"page-header-user-dropdown\"]/span")
+	public WebElement userBtn;
 		
 	@FindBy(xpath = "//span[contains(text(),'Logout')]")
 	public WebElement logoutbtn;
