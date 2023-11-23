@@ -28,7 +28,7 @@ public class VatRegistrationLocators {
 	@FindBy(xpath = "//h1[contains(text(),'VAT Registration')]")
 	public WebElement pageTitle;
 	
-	@FindBy(xpath = "//form/div[2]/div[1]/div/label")
+	@FindBy(xpath = "//label[@class='uploader'][1]")
 	public WebElement tradeUploadBtn;
 	
 	@FindBy(xpath = "//form/div[2]/div[2]/div/label")
@@ -37,10 +37,10 @@ public class VatRegistrationLocators {
 	@FindBy(xpath = "//form/div[2]/div[3]/div/label")
 	public WebElement idUploadBtn;
 	
-	@FindBy(xpath = "//form/div[2]/div[4]/div/label")
+	@FindBy(xpath = "(//label[@class='uploader'])[4]")
 	public WebElement pasportUploadBtn;
 	
-	@FindBy(xpath = "//form/div[2]/div[5]/div/label")
+	@FindBy(xpath = "(//label[@class='uploader'])[5]")
 	public WebElement dclrationUploadBtn;
 	
 	@FindBy(xpath = "//form/div[2]/div/h3")
@@ -67,6 +67,9 @@ public class VatRegistrationLocators {
 	@FindBy(id = "back-to-top")
 	public WebElement backToTopBtn;
 	
+	@FindBy(name ="error for same file")
+	public WebElement errorFrSameFile;
+	
 	@FindBy(name = "email")
 	public WebElement emailBox;
 	
@@ -91,10 +94,10 @@ public class VatRegistrationLocators {
 	@FindBy(xpath = "//*[@id=\"navbar-nav\"]/li/a/span")
 	public List<WebElement> menuItems;
 	
-	@FindBy(xpath = "//form/div[4]/div/div")
+	@FindBy(xpath = "//section/form/div[3]/div/div")
 	public List<WebElement> uploadedFiles;
 	
-	@FindBy(xpath = "//form/div[2]/div/div/label/div/div")
+	@FindBy(xpath = "(//label[@class='uploader'])")
 	public List<WebElement> uploadBoxes;
 	
 	@FindBy(xpath = "//button[contains(text(),'Make Payment')]")

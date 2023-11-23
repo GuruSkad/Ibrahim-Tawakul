@@ -100,13 +100,11 @@ public class BaseTest {
 	}
 
 	/*
-	 * to scroll upto a webelement:- scrollPage(ScrollType.TO_ELEMENT,
-	 * yourWebElement, 0, 0);
+	 * to scroll upto a webelement:- scrollPage(ScrollType.TO_ELEMENT,yourWebElement, 0, 0);
 	 * 
 	 * to scroll to the top of the page:- scrollPage(ScrollType.TO_TOP, null, 0, 0);
 	 * 
-	 * to scroll to the bottom of the page:- scrollPage(ScrollType.TO_BOTTOM, null, 0,
-	 * 0);
+	 * to scroll to the bottom of the page:- scrollPage(ScrollType.TO_BOTTOM, null, 0,0);
 	 * 
 	 * to scroll by given X, Y coordinates (give x and y value):-
 	 * scrollPage(ScrollType.BY_COORDINATES, null, 500, 1000);

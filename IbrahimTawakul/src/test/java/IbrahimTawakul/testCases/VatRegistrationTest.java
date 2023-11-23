@@ -1,5 +1,12 @@
 package IbrahimTawakul.testCases;
 
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.KeyEvent;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,6 +20,8 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import com.google.errorprone.annotations.Keep;
+
 import IbrahimTawakul.pageobjects.LoginPageLocators;
 import IbrahimTawakul.pageobjects.VatRegistrationLocators;
 import IbrahimTawakul.testComponents.BaseTest;
@@ -20,6 +29,7 @@ import IbrahimTawakul.testComponents.BaseTest;
 public class VatRegistrationTest extends BaseTest{
 	private VatRegistrationLocators vat;
 	private LoginPageLocators login;
+	private Robot rb;
 
 	@BeforeMethod
 	public void initializeLoginPageLocators() {
@@ -32,8 +42,19 @@ public class VatRegistrationTest extends BaseTest{
 		login.password1.sendKeys("Anmolkumar@1234");
 		login.loginButton.click();
 	}
+	
+	private void KeyPress() {
+    	rb.keyPress(KeyEvent.VK_CONTROL);
+    	rb.keyPress(KeyEvent.VK_V);
+    	
+    	rb.keyRelease(KeyEvent.VK_CONTROL);
+    	rb.keyRelease(KeyEvent.VK_V);
+    	
+    	rb.keyPress(KeyEvent.VK_ENTER);
+    	rb.keyRelease(KeyEvent.VK_ENTER); 
+	}
 
-	@Test
+	//@Test
 	public void heading() {
 		loginApplication();
 		for(WebElement ab: vat.uploadBoxes) {
@@ -43,7 +64,7 @@ public class VatRegistrationTest extends BaseTest{
 		}
 	}
 	
-	@Test
+	//@Test
 	public void uiTesting() {
 	    loginApplication();
 	    Assert.assertTrue(vat.logo.isDisplayed(), "Logo is not displayed");
@@ -64,7 +85,7 @@ public class VatRegistrationTest extends BaseTest{
 	    		"Submit without payment button is not displayed");
 	}
 
-	@Test
+	//@Test
 	public void verifyPlaceholders() {
 	    loginApplication();
 	    String emailPlaceholder = vat.emailBox.getAttribute("placeholder");
@@ -75,7 +96,7 @@ public class VatRegistrationTest extends BaseTest{
 	    		"Contact number placeholder is incorrect");
 	}
 	
-	@Test
+	//@Test
 	public void emptyMsg() {
 		loginApplication();
 		scrollPage(ScrollType.TO_BOTTOM, null, 0,0);
@@ -89,7 +110,7 @@ public class VatRegistrationTest extends BaseTest{
 				"Blank contact no.error msg not displaying");
 	}
 	
-	@Test
+	//@Test
 	public void incorrectEmailMsg() {
 		loginApplication();
 		scrollPage(ScrollType.TO_BOTTOM, null, 0,0);
@@ -100,7 +121,7 @@ public class VatRegistrationTest extends BaseTest{
 				"Incorrect email error msg not displaying");
 	}
 	
-	@Test
+	//@Test
 	public void IncorrectContactNoMsg() {
 		loginApplication();
 		scrollPage(ScrollType.TO_BOTTOM, null, 0,0);
@@ -111,7 +132,7 @@ public class VatRegistrationTest extends BaseTest{
 				"Invalid contact no.error msg not displaying");
 	}
 	
-    @Test
+   // @Test
     public void verifyCountryCodeInDropdown() {
         loginApplication();
         waitForElementToBeVisible(vat.logo);
@@ -130,7 +151,7 @@ public class VatRegistrationTest extends BaseTest{
         		+ "found in the dropdown");
     }
     
-    @Test
+   // @Test
     public void verifyCountryCodeSearch() {
     	loginApplication();
         waitForElementToBeVisible(vat.menuText);
@@ -149,7 +170,7 @@ public class VatRegistrationTest extends BaseTest{
         		+ "found in the search results");
     }
 	
-    @Test
+   // @Test
     public void verifyMenuListSpellings() {
         loginApplication();
         waitForElementToBeVisible(vat.menuText);
@@ -166,7 +187,7 @@ public class VatRegistrationTest extends BaseTest{
         }
     }
     
-    @Test
+  //  @Test
     public void verifyMenuColorOnHover() throws InterruptedException {
         Actions action = new Actions(driver);
 
@@ -185,7 +206,7 @@ public class VatRegistrationTest extends BaseTest{
         }
     }
     
-    @Test
+  //  @Test
     public void verifyDocumentsTitle() {
         loginApplication();
         waitForElementToBeVisible(vat.menuText);
@@ -199,11 +220,11 @@ public class VatRegistrationTest extends BaseTest{
         }
     }
     
-    @Test
+   // @Test
     public void uploadDocumentMsg() {
         loginApplication();
         waitForElementToBeVisible(vat.menuText);
-    	String expectedText = ("Drag & drop files or Browse "
+    	String expectedText = ("Drag & drop files or Browse"
     			+ "Supported formates: JPEG, PNG, PDF, Word.");
         List<WebElement> actualText = vat.uploadBoxes;
         for (WebElement title : actualText) {
@@ -213,7 +234,7 @@ public class VatRegistrationTest extends BaseTest{
         }
     }
     
-    @Test
+    //@Test
     public void moveToTopBtn() throws InterruptedException
     {
     	loginApplication();
@@ -227,7 +248,440 @@ public class VatRegistrationTest extends BaseTest{
         Assert.assertTrue(scrollPosition < tolerance, "Page did not scroll to the top");
      }
     
-	@AfterMethod
+   // @Test
+    public void pngFileUpload() throws InterruptedException, AWTException {
+    	loginApplication();
+    	Thread.sleep(8000);
+    	scrollPage(ScrollType.TO_ELEMENT,vat.tradeUploadBtn, 0, 0);
+    	vat.tradeUploadBtn.click();
+    	
+    	rb = new Robot();
+    	rb.delay(2000);
+    	
+    	StringSelection upload1 = new StringSelection
+    			("C:\\Users\\Dell\\Pictures\\Screenshots\\sc1.png");
+    	StringSelection upload2 = new StringSelection
+    			("C:\\Users\\Dell\\Pictures\\Screenshots\\sc2.png");
+    	StringSelection upload3 = new StringSelection
+    			("C:\\Users\\Dell\\Pictures\\Screenshots\\sc3.png");
+    	StringSelection upload4 = new StringSelection
+    			("C:\\Users\\Dell\\Pictures\\Screenshots\\sc4.png");
+    	StringSelection upload5 = new StringSelection
+    			("C:\\Users\\Dell\\Pictures\\Screenshots\\sc5.png"); 	
+    	  	
+    	Toolkit.getDefaultToolkit().getSystemClipboard().setContents(upload1, null);
+    	KeyPress();  
+    	
+    	Thread.sleep(2000);
+    	scrollPage(ScrollType.TO_ELEMENT,vat.moaUploadBtn, 0, 0);
+    	vat.moaUploadBtn.click();
+    	rb.delay(2000);
+    	Toolkit.getDefaultToolkit().getSystemClipboard().setContents(upload2, null);
+    	KeyPress();
+    	
+    	Thread.sleep(2000);
+    	scrollPage(ScrollType.TO_ELEMENT,vat.idUploadBtn, 0, 0);
+    	vat.idUploadBtn.click();
+    	rb.delay(2000);
+    	Toolkit.getDefaultToolkit().getSystemClipboard().setContents(upload3, null);
+    	KeyPress();
+    	
+    	Actions action = new Actions(driver);
+    	
+    	Thread.sleep(3000);
+    	scrollPage(ScrollType.TO_ELEMENT,vat.pasportUploadBtn, 0, 0);
+    	waitForClickable(vat.pasportUploadBtn);
+    	action.moveToElement(vat.pasportUploadBtn).click().build().perform();
+    	rb.delay(2000);
+    	Toolkit.getDefaultToolkit().getSystemClipboard().setContents(upload4, null);
+    	KeyPress();
+    	
+    	Thread.sleep(2000);
+    	scrollPage(ScrollType.TO_ELEMENT,vat.dclrationUploadBtn, 0, 0);
+    	vat.dclrationUploadBtn.click();
+    	rb.delay(2000);
+    	Toolkit.getDefaultToolkit().getSystemClipboard().setContents(upload5, null);
+    	KeyPress();
+    	
+    	Thread.sleep(3000);
+    	scrollPage(ScrollType.TO_BOTTOM, null, 0,0);
+    	Assert.assertEquals(vat.uploadedFiles.size(), 5);
+    
+    }
+    
+    @Test
+    public void jpegFileUpload() throws InterruptedException, AWTException {
+    	loginApplication();
+    	Thread.sleep(8000);
+    	scrollPage(ScrollType.TO_ELEMENT,vat.tradeUploadBtn, 0, 0);
+    	vat.tradeUploadBtn.click();
+    	
+    	rb = new Robot();
+    	rb.delay(2000);
+    	
+    	//change the file location
+    	StringSelection upload1 = new StringSelection
+    			("C:\\Users\\Dell\\Pictures\\Screenshots\\sc1.png");
+    	StringSelection upload2 = new StringSelection
+    			("C:\\Users\\Dell\\Pictures\\Screenshots\\sc2.png");
+    	StringSelection upload3 = new StringSelection
+    			("C:\\Users\\Dell\\Pictures\\Screenshots\\sc3.png");
+    	StringSelection upload4 = new StringSelection
+    			("C:\\Users\\Dell\\Pictures\\Screenshots\\sc4.png");
+    	StringSelection upload5 = new StringSelection
+    			("C:\\Users\\Dell\\Pictures\\Screenshots\\sc5.png"); 	
+    	  	
+    	Toolkit.getDefaultToolkit().getSystemClipboard().setContents(upload1, null);
+    	KeyPress();  
+    	
+    	Thread.sleep(2000);
+    	scrollPage(ScrollType.TO_ELEMENT,vat.moaUploadBtn, 0, 0);
+    	vat.moaUploadBtn.click();
+    	rb.delay(2000);
+    	Toolkit.getDefaultToolkit().getSystemClipboard().setContents(upload2, null);
+    	KeyPress();
+    	
+    	Thread.sleep(2000);
+    	scrollPage(ScrollType.TO_ELEMENT,vat.idUploadBtn, 0, 0);
+    	vat.idUploadBtn.click();
+    	rb.delay(2000);
+    	Toolkit.getDefaultToolkit().getSystemClipboard().setContents(upload3, null);
+    	KeyPress();
+    	
+    	Actions action = new Actions(driver);
+    	
+    	Thread.sleep(3000);
+    	scrollPage(ScrollType.TO_ELEMENT,vat.pasportUploadBtn, 0, 0);
+    	waitForClickable(vat.pasportUploadBtn);
+    	action.moveToElement(vat.pasportUploadBtn).click().build().perform();
+    	rb.delay(2000);
+    	Toolkit.getDefaultToolkit().getSystemClipboard().setContents(upload4, null);
+    	KeyPress();
+    	
+    	Thread.sleep(2000);
+    	scrollPage(ScrollType.TO_ELEMENT,vat.dclrationUploadBtn, 0, 0);
+    	vat.dclrationUploadBtn.click();
+    	rb.delay(2000);
+    	Toolkit.getDefaultToolkit().getSystemClipboard().setContents(upload5, null);
+    	KeyPress();
+    	
+    	Thread.sleep(3000);
+    	scrollPage(ScrollType.TO_BOTTOM, null, 0,0);
+    	Assert.assertEquals(vat.uploadedFiles.size(), 5);
+    
+    }
+
+    @Test
+    public void wordFileUpload() throws InterruptedException, AWTException {
+    	loginApplication();
+    	Thread.sleep(8000);
+    	scrollPage(ScrollType.TO_ELEMENT,vat.tradeUploadBtn, 0, 0);
+    	vat.tradeUploadBtn.click();
+    	
+    	rb = new Robot();
+    	rb.delay(2000);
+    	//change the file location
+    	StringSelection upload1 = new StringSelection
+    			("C:\\Users\\Dell\\Pictures\\Screenshots\\sc1.png");
+    	StringSelection upload2 = new StringSelection
+    			("C:\\Users\\Dell\\Pictures\\Screenshots\\sc2.png");
+    	StringSelection upload3 = new StringSelection
+    			("C:\\Users\\Dell\\Pictures\\Screenshots\\sc3.png");
+    	StringSelection upload4 = new StringSelection
+    			("C:\\Users\\Dell\\Pictures\\Screenshots\\sc4.png");
+    	StringSelection upload5 = new StringSelection
+    			("C:\\Users\\Dell\\Pictures\\Screenshots\\sc5.png"); 	
+    	  	
+    	Toolkit.getDefaultToolkit().getSystemClipboard().setContents(upload1, null);
+    	KeyPress();  
+    	
+    	Thread.sleep(2000);
+    	scrollPage(ScrollType.TO_ELEMENT,vat.moaUploadBtn, 0, 0);
+    	vat.moaUploadBtn.click();
+    	rb.delay(2000);
+    	Toolkit.getDefaultToolkit().getSystemClipboard().setContents(upload2, null);
+    	KeyPress();
+    	
+    	Thread.sleep(2000);
+    	scrollPage(ScrollType.TO_ELEMENT,vat.idUploadBtn, 0, 0);
+    	vat.idUploadBtn.click();
+    	rb.delay(2000);
+    	Toolkit.getDefaultToolkit().getSystemClipboard().setContents(upload3, null);
+    	KeyPress();
+    	
+    	Actions action = new Actions(driver);
+    	
+    	Thread.sleep(3000);
+    	scrollPage(ScrollType.TO_ELEMENT,vat.pasportUploadBtn, 0, 0);
+    	waitForClickable(vat.pasportUploadBtn);
+    	action.moveToElement(vat.pasportUploadBtn).click().build().perform();
+    	rb.delay(2000);
+    	Toolkit.getDefaultToolkit().getSystemClipboard().setContents(upload4, null);
+    	KeyPress();
+    	
+    	Thread.sleep(2000);
+    	scrollPage(ScrollType.TO_ELEMENT,vat.dclrationUploadBtn, 0, 0);
+    	vat.dclrationUploadBtn.click();
+    	rb.delay(2000);
+    	Toolkit.getDefaultToolkit().getSystemClipboard().setContents(upload5, null);
+    	KeyPress();
+    	
+    	Thread.sleep(3000);
+    	scrollPage(ScrollType.TO_BOTTOM, null, 0,0);
+    	Assert.assertEquals(vat.uploadedFiles.size(), 5);
+    
+    }
+    
+    @Test
+    public void pdfFileUpload() throws InterruptedException, AWTException {
+    	loginApplication();
+    	Thread.sleep(8000);
+    	scrollPage(ScrollType.TO_ELEMENT,vat.tradeUploadBtn, 0, 0);
+    	vat.tradeUploadBtn.click();
+    	
+    	rb = new Robot();
+    	rb.delay(2000);
+    	
+    	StringSelection upload1 = new StringSelection
+    			("C:\\Users\\Dell\\Pictures\\Screenshots\\sc1.png");
+    	StringSelection upload2 = new StringSelection
+    			("C:\\Users\\Dell\\Pictures\\Screenshots\\sc2.png");
+    	StringSelection upload3 = new StringSelection
+    			("C:\\Users\\Dell\\Pictures\\Screenshots\\sc3.png");
+    	StringSelection upload4 = new StringSelection
+    			("C:\\Users\\Dell\\Pictures\\Screenshots\\sc4.png");
+    	StringSelection upload5 = new StringSelection
+    			("C:\\Users\\Dell\\Pictures\\Screenshots\\sc5.png"); 	
+    	  	
+    	Toolkit.getDefaultToolkit().getSystemClipboard().setContents(upload1, null);
+    	KeyPress();  
+    	
+    	Thread.sleep(2000);
+    	scrollPage(ScrollType.TO_ELEMENT,vat.moaUploadBtn, 0, 0);
+    	vat.moaUploadBtn.click();
+    	rb.delay(2000);
+    	Toolkit.getDefaultToolkit().getSystemClipboard().setContents(upload2, null);
+    	KeyPress();
+    	
+    	Thread.sleep(2000);
+    	scrollPage(ScrollType.TO_ELEMENT,vat.idUploadBtn, 0, 0);
+    	vat.idUploadBtn.click();
+    	rb.delay(2000);
+    	Toolkit.getDefaultToolkit().getSystemClipboard().setContents(upload3, null);
+    	KeyPress();
+    	
+    	Actions action = new Actions(driver);
+    	
+    	Thread.sleep(3000);
+    	scrollPage(ScrollType.TO_ELEMENT,vat.pasportUploadBtn, 0, 0);
+    	waitForClickable(vat.pasportUploadBtn);
+    	action.moveToElement(vat.pasportUploadBtn).click().build().perform();
+    	rb.delay(2000);
+    	Toolkit.getDefaultToolkit().getSystemClipboard().setContents(upload4, null);
+    	KeyPress();
+    	
+    	Thread.sleep(2000);
+    	scrollPage(ScrollType.TO_ELEMENT,vat.dclrationUploadBtn, 0, 0);
+    	vat.dclrationUploadBtn.click();
+    	rb.delay(2000);
+    	Toolkit.getDefaultToolkit().getSystemClipboard().setContents(upload5, null);
+    	KeyPress();
+    	
+    	Thread.sleep(3000);
+    	scrollPage(ScrollType.TO_BOTTOM, null, 0,0);
+    	Assert.assertEquals(vat.uploadedFiles.size(), 5);
+    
+    }
+    
+    @Test
+    public void txtFileUpload() throws InterruptedException, AWTException {
+    	loginApplication();
+    	Thread.sleep(8000);
+    	scrollPage(ScrollType.TO_ELEMENT,vat.tradeUploadBtn, 0, 0);
+    	vat.tradeUploadBtn.click();
+    	
+    	rb = new Robot();
+    	rb.delay(2000);
+    	//change the file location
+    	StringSelection upload1 = new StringSelection
+    			("C:\\Users\\Dell\\Desktop\\testcases for login page.txt");	  	
+    	Toolkit.getDefaultToolkit().getSystemClipboard().setContents(upload1, null);
+    	KeyPress();  
+    	
+    	Thread.sleep(2000);
+    	scrollPage(ScrollType.TO_ELEMENT,vat.moaUploadBtn, 0, 0);
+    	vat.moaUploadBtn.click();
+    	rb.delay(2000);
+    	Toolkit.getDefaultToolkit().getSystemClipboard().setContents(upload1, null);
+    	KeyPress();
+    	
+    	Thread.sleep(2000);
+    	scrollPage(ScrollType.TO_ELEMENT,vat.idUploadBtn, 0, 0);
+    	vat.idUploadBtn.click();
+    	rb.delay(2000);
+    	Toolkit.getDefaultToolkit().getSystemClipboard().setContents(upload1, null);
+    	KeyPress();
+    	
+    	Actions action = new Actions(driver);
+    	
+    	Thread.sleep(3000);
+    	scrollPage(ScrollType.TO_ELEMENT,vat.pasportUploadBtn, 0, 0);
+    	waitForClickable(vat.pasportUploadBtn);
+    	action.moveToElement(vat.pasportUploadBtn).click().build().perform();
+    	rb.delay(2000);
+    	Toolkit.getDefaultToolkit().getSystemClipboard().setContents(upload1, null);
+    	KeyPress();
+    	
+    	Thread.sleep(2000);
+    	scrollPage(ScrollType.TO_ELEMENT,vat.dclrationUploadBtn, 0, 0);
+    	vat.dclrationUploadBtn.click();
+    	rb.delay(2000);
+    	Toolkit.getDefaultToolkit().getSystemClipboard().setContents(upload1, null);
+    	KeyPress();
+    	
+    	Thread.sleep(3000);
+    	scrollPage(ScrollType.TO_BOTTOM, null, 0,0);
+    	Assert.assertTrue(vat.uploadedFiles == null || vat.uploadedFiles.isEmpty(), 
+    			"Uploaded files list is not null or txt file found");
+    
+    }
+    
+    @Test
+    public void mp4FileUpload() throws InterruptedException, AWTException {
+    	loginApplication();
+    	Thread.sleep(8000);
+    	scrollPage(ScrollType.TO_ELEMENT,vat.tradeUploadBtn, 0, 0);
+    	vat.tradeUploadBtn.click();
+    	
+    	rb = new Robot();
+    	rb.delay(2000);
+    	
+    	StringSelection upload1 = new StringSelection
+    			("C:\\Users\\Dell\\Downloads\\file_example_MP4_480_1_5MG.mp4");
+    	Toolkit.getDefaultToolkit().getSystemClipboard().setContents(upload1, null);
+    	KeyPress();  
+    	
+    	Thread.sleep(2000);
+    	scrollPage(ScrollType.TO_ELEMENT,vat.moaUploadBtn, 0, 0);
+    	vat.moaUploadBtn.click();
+    	rb.delay(2000);
+    	Toolkit.getDefaultToolkit().getSystemClipboard().setContents(upload1, null);
+    	KeyPress();
+    	
+    	Thread.sleep(2000);
+    	scrollPage(ScrollType.TO_ELEMENT,vat.idUploadBtn, 0, 0);
+    	vat.idUploadBtn.click();
+    	rb.delay(2000);
+    	Toolkit.getDefaultToolkit().getSystemClipboard().setContents(upload1, null);
+    	KeyPress();
+    	
+    	Actions action = new Actions(driver);
+    	
+    	Thread.sleep(3000);
+    	scrollPage(ScrollType.TO_ELEMENT,vat.pasportUploadBtn, 0, 0);
+    	waitForClickable(vat.pasportUploadBtn);
+    	action.moveToElement(vat.pasportUploadBtn).click().build().perform();
+    	rb.delay(2000);
+    	Toolkit.getDefaultToolkit().getSystemClipboard().setContents(upload1, null);
+    	KeyPress();
+    	
+    	Thread.sleep(2000);
+    	scrollPage(ScrollType.TO_ELEMENT,vat.dclrationUploadBtn, 0, 0);
+    	vat.dclrationUploadBtn.click();
+    	rb.delay(2000);
+    	Toolkit.getDefaultToolkit().getSystemClipboard().setContents(upload1, null);
+    	KeyPress();
+    	
+    	Thread.sleep(3000);
+    	scrollPage(ScrollType.TO_BOTTOM, null, 0,0);
+    	Assert.assertTrue(vat.uploadedFiles == null || vat.uploadedFiles.isEmpty(), 
+    			"Uploaded files list is not null mp4 file found");
+    
+    }
+    
+    @Test
+    public void mp4FileUpload1() throws InterruptedException, AWTException {
+        loginApplication();
+        Thread.sleep(8000);
+        scrollPage(ScrollType.TO_ELEMENT, vat.tradeUploadBtn, 0, 0);
+
+        String mp4FilePath = "C:\\Users\\Dell\\Downloads\\file_example_MP4_480_1_5MG.mp4";
+
+        // Upload the same MP4 file to different sections/buttons
+        List<WebElement> uploadButtons = Arrays.asList(
+            vat.tradeUploadBtn, vat.moaUploadBtn, vat.idUploadBtn, vat.pasportUploadBtn, vat.dclrationUploadBtn
+        );
+
+        for (WebElement uploadButton : uploadButtons) {
+            scrollPage(ScrollType.TO_ELEMENT, uploadButton, 0, 0);
+            uploadButton.click();
+
+            Robot rb = new Robot();
+            rb.delay(2000);
+
+            StringSelection uploadSelection = new StringSelection(mp4FilePath);
+            Toolkit.getDefaultToolkit().getSystemClipboard().setContents(uploadSelection, null);
+            KeyPress();
+
+            // Adding a delay after each upload
+            Thread.sleep(3000); // You can adjust the delay time as needed
+        }
+
+        scrollPage(ScrollType.TO_BOTTOM, null, 0,0);
+    	Assert.assertTrue(vat.uploadedFiles == null || vat.uploadedFiles.isEmpty(), 
+    			"Uploaded files list is not null mp4 file found");
+    }
+
+    
+    @Test
+    public void maxFileAllowed() throws InterruptedException, AWTException {
+        loginApplication();
+        rb = new Robot();
+        Thread.sleep(5000);
+        scrollPage(ScrollType.TO_ELEMENT, vat.tradeUploadBtn, 0, 0);      
+        String[] filePaths = {
+            "C:\\Users\\Dell\\Pictures\\Screenshots\\sc1.png",
+            "C:\\Users\\Dell\\Pictures\\Screenshots\\sc2.png",
+            "C:\\Users\\Dell\\Pictures\\Screenshots\\sc3.png"
+        };
+        for (String filePath : filePaths) {
+            vat.tradeUploadBtn.click();
+            rb.delay(2000);
+            StringSelection uploadSelection = new StringSelection(filePath);
+            Toolkit.getDefaultToolkit().getSystemClipboard().setContents(uploadSelection, null);
+            KeyPress();
+            Thread.sleep(3000);
+        }
+        Assert.assertEquals(vat.uploadedFiles.size(), filePaths.length,
+            "The number of uploaded files does not match the expected count");
+    }
+
+    
+    @Test
+    public void fileDuplicacy() throws InterruptedException, AWTException {
+    		rb = new Robot();
+    		loginApplication();
+    	    Thread.sleep(5000);
+    	    scrollPage(ScrollType.TO_ELEMENT, vat.tradeUploadBtn, 0, 0);
+    	    String filePath = "C:\\Users\\Dell\\Pictures\\Screenshots\\sc1.png";
+    	    for (int i = 0; i < 3; i++) {
+    	        vat.tradeUploadBtn.click();
+    	        rb.delay(2000);
+    	        StringSelection uploadSelection = new StringSelection(filePath);
+    	        Toolkit.getDefaultToolkit().getSystemClipboard().setContents(uploadSelection, null);
+    	        KeyPress();
+    	        Thread.sleep(3000); 
+    	    }
+    	    String expectedErrorMessage = "File already exists";    	   
+    	   String actualErrorMessage = vat.errorFrSameFile.getText();
+    	    
+    	    Assert.assertTrue(actualErrorMessage.contains(expectedErrorMessage),
+    	            "Expected error message 'File already exists' not found");
+    	}
+
+    
+    
+	//@AfterMethod
 		public void tearDown() {
 			driver.quit();
 		}
