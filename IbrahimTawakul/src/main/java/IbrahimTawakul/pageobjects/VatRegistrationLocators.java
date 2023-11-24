@@ -70,6 +70,9 @@ public class VatRegistrationLocators {
 	@FindBy(name ="error for same file")
 	public WebElement errorFrSameFile;
 	
+	@FindBy(id = "swal2-html-container")
+	WebElement SucessMsg;
+	
 	@FindBy(name = "email")
 	public WebElement emailBox;
 	
@@ -105,6 +108,15 @@ public class VatRegistrationLocators {
 	
 	@FindBy(className = "submitWdoPaymnt.mt-4")
 	public WebElement submitWithoutPmntBtn;
+	
+	@FindBy(xpath = "//button[normalize-space()='Track your order']")
+	public WebElement trackYourOrdrBtn;
+	
+	public String successMessage()
+	{
+		String msg = SucessMsg.getText();
+		return msg;
+	}
 	
 	
 }
