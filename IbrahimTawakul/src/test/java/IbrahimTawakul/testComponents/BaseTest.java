@@ -46,12 +46,12 @@ public class BaseTest {
 		}
 
 		driver.manage().window().maximize();
-		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(7));
 		return driver;
 
 	}
 
-	@BeforeMethod
+	@BeforeClass
 	public LandingPage launchApplication() throws IOException {
 		driver = initializeDriver();
 		landingPage = new LandingPage(driver);
