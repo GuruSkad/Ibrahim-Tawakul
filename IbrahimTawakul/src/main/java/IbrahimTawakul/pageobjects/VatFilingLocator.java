@@ -1,5 +1,7 @@
 package IbrahimTawakul.pageobjects;
 
+import java.util.List;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -27,8 +29,8 @@ public class VatFilingLocator {
 	@FindBy(xpath = "(//*[name()='svg'])[4]")
 	public WebElement showPswdBtn;
 		
-	@FindBy(xpath = "//label[normalize-space()='Confirm Password']")
-	public WebElement cnfPasswordBox;
+	@FindBy(xpath = "//section/form/div[1]/div[3]/div/input")
+	public WebElement confirmPassBox;
 	
 	@FindBy(xpath = "(//*[name()='svg'])[6]")
 	public WebElement showCnfPswd;
@@ -46,6 +48,9 @@ public class VatFilingLocator {
 	@FindBy(xpath = "//label[normalize-space()='Password']")
 	public WebElement passwordP;
 	
+	@FindBy(xpath = "//label[normalize-space()='Confirm Password']")
+	public WebElement cnfPasswordP;
+	
 	@FindBy(xpath = "//*[@class='row']/div[1]/h3")
 	public WebElement salesTitle;
 	
@@ -61,16 +66,16 @@ public class VatFilingLocator {
 	@FindBy(xpath = "//section/form/div[3]/div/div/div")
 	public WebElement uploadedFiles;
 	
-	@FindBy(className = "greenBtn.mt-4")
+	@FindBy(css = "button[type='submit']")
 	public WebElement submitBtn;
 	
-	@FindBy(xpath = "(//label[@class='uploader'])[1]")
+	@FindBy(xpath = "(//label[@class='uploader'])[1]/div/div")
 	public WebElement salesUpload;
 	
-	@FindBy(xpath = "(//label[@class='uploader'])[2]")
+	@FindBy(xpath = "//div[2]//div[2]//div[1]//label[1]/div/div")
 	public WebElement purchaseUpload;
 	
-	@FindBy(xpath = "(//label[@class='uploader'])[3]")
+	@FindBy(xpath = "//div[2]//div[3]//div[1]//label[1]/div/div")
 	public WebElement statementUpload;
 	
 	@FindBy(xpath = "//form/div[1]/div[1]/div/div")
@@ -91,10 +96,28 @@ public class VatFilingLocator {
 	@FindBy(xpath = "//form/div[2]/div[3]/div[2]")
 	public WebElement errorStatementMsg;
 	
+	@FindBy(id ="mat-option-0")
+	public WebElement period1;
+	
+	@FindBy(id ="mat-option-0")
+	public WebElement period2;
+	
+	@FindBy(id ="mat-option-0")
+	public WebElement period3;
+	
+	@FindBy(id ="mat-option-0")
+	public WebElement period4;
+	
+	@FindBy(xpath = "//section/form/div[3]/div/div/div")
+	public List<WebElement> vatUploadedFiles;
+	
 	public void clearFeilds() {
+		emailBox.sendKeys("465");
+		passwordBox.sendKeys("hjgj");
+		confirmPassBox.sendKeys("jhgkj");
 		emailBox.clear();
 		passwordBox.clear();
-		cnfPasswordBox.clear();
+		confirmPassBox.clear();
 	}
 	
 	public String[] getEmptyErrorMessages() {

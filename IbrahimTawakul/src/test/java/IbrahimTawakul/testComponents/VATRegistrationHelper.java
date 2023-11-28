@@ -7,6 +7,8 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
+import IbrahimTawakul.pageobjects.VatFilingLocator;
 import IbrahimTawakul.pageobjects.VatRegistrationLocators;
 
 public class VATRegistrationHelper {
@@ -54,6 +56,19 @@ public class VATRegistrationHelper {
 	        }
 	    }
 
+	    //upload btns for vat filing
+	    public WebElement vatFilingUploadBtn(VatFilingLocator vatf, int index) {
+	        switch (index) {
+	            case 0:
+	                return vatf.salesUpload;
+	            case 1:
+	                return vatf.purchaseUpload;
+	            case 2:
+	                return vatf.statementUpload;
+	            default:
+	                return null;
+	        }
+	    }
 	    // Change file paths
 	    public static final String[] PDF_FILE_PATHS = {
 	        "C:\\Users\\Dell\\Pictures\\Screenshots\\pc1.png",
@@ -71,6 +86,36 @@ public class VATRegistrationHelper {
 	    	    "C:\\Users\\Dell\\Pictures\\Screenshots\\sc5.png"
 	    	    };
 	    
+	    public static final String[] Jpeg_FILE_PATHS = {
+	    		"C:\\Users\\Dell\\Pictures\\Screenshots\\sc9.png",
+	    	    "C:\\Users\\Dell\\Pictures\\Screenshots\\sc10.png",
+	    	    "C:\\Users\\Dell\\Pictures\\Screenshots\\sc11.png",
+	    	    "C:\\Users\\Dell\\Pictures\\Screenshots\\sc4.png",
+	    	    "C:\\Users\\Dell\\Pictures\\Screenshots\\sc5.png"
+	    	    };
 	    
+	    public static final String[] Png_FILE_PATHS = {
+	    		"C:\\Users\\Dell\\Pictures\\Screenshots\\sc1.png",
+	    	    "C:\\Users\\Dell\\Pictures\\Screenshots\\sc2.png",
+	    	    "C:\\Users\\Dell\\Pictures\\Screenshots\\sc3.png",
+	    	    "C:\\Users\\Dell\\Pictures\\Screenshots\\sc4.png",
+	    	    "C:\\Users\\Dell\\Pictures\\Screenshots\\sc5.png"
+	    	    };
+	    
+	    public static final String[] Txt_FILE_PATHS = {
+	    		"C:\\Users\\Dell\\Pictures\\Screenshots\\sc1.png",
+	    	    "C:\\Users\\Dell\\Pictures\\Screenshots\\sc2.png",
+	    	    "C:\\Users\\Dell\\Pictures\\Screenshots\\sc3.png",
+	    	    "C:\\Users\\Dell\\Pictures\\Screenshots\\sc4.png",
+	    	    "C:\\Users\\Dell\\Pictures\\Screenshots\\sc5.png"
+	    	    };
+	    
+	    public static final String[] Mp4_FILE_PATHS = {
+	    		"C:\\Users\\Dell\\Pictures\\Screenshots\\sc1.png",
+	    	    "C:\\Users\\Dell\\Pictures\\Screenshots\\sc2.png",
+	    	    "C:\\Users\\Dell\\Pictures\\Screenshots\\sc3.png",
+	    	    "C:\\Users\\Dell\\Pictures\\Screenshots\\sc4.png",
+	    	    "C:\\Users\\Dell\\Pictures\\Screenshots\\sc5.png"
+	    	    };
 
 	}
