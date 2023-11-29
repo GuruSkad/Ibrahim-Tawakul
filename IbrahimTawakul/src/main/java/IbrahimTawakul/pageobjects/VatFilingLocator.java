@@ -69,7 +69,7 @@ public class VatFilingLocator {
 	@FindBy(css = "button[type='submit']")
 	public WebElement submitBtn;
 	
-	@FindBy(xpath = "(//label[@class='uploader'])[1]/div/div")
+	@FindBy(xpath = "//*[@id=\"layout-wrapper\"]/div/div/div/app-vat-filing/section/form/div[2]/div[1]/div/label")
 	public WebElement salesUpload;
 	
 	@FindBy(xpath = "//div[2]//div[2]//div[1]//label[1]/div/div")
