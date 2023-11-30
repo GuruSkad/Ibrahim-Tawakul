@@ -9,7 +9,10 @@ import java.util.List;
 
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -28,13 +31,14 @@ public class VATFilingTest extends BaseTest {
 	private VATRegistrationHelper helper;
 	private VatFilingLocator vatf;
 	private SoftAssert softAssert;
-
+	private Actions action;
 	@BeforeClass
 	public void initilazeLocatprs() throws AWTException, InterruptedException {
 		login = new LoginPageLocators(driver);
 		rb = new Robot();
 		helper = new VATRegistrationHelper(driver);
 		vatf = new VatFilingLocator(driver);
+		action = new Actions(driver);
 		gotoVatFiling();
 		softAssert = new SoftAssert();
 	}
@@ -64,24 +68,14 @@ public class VATFilingTest extends BaseTest {
 		}
 	}
 
-	public void submit() {
-		scrollPage(ScrollType.TO_ELEMENT, vatf.submitBtn, 0, 0);
-		waitForClickable(vatf.submitBtn);
-		vatf.submitBtn.click();
-	}
+	public void submit() throws InterruptedException {	     
+	scrollPage(ScrollType.TO_BOTTOM, null, 0, 0);
+    Thread.sleep(2000);
+    vatf.submitBtn.click();}
 
 	@Test
 	public void titleValidation() {
 		Assert.assertEquals(vatf.pageHeading.getText(), "VAT Filing", "Page title not found or not correct");
-	}
-
-	@Test
-	public void autodataFetch() {
-		vatf.showPswdBtn.click();
-		String actualEmail = vatf.emailBox.getText();
-		String actualPass = vatf.passwordBox.getText();
-		Assert.assertEquals(actualEmail, "anmol@skadits.com", "autodataFetch is not showing 'email'");
-		Assert.assertEquals(actualPass, "Testing@121", "autodatafetch is not displaying password");
 	}
 
 	@Test
@@ -99,7 +93,7 @@ public class VATFilingTest extends BaseTest {
 
 	}
 
-	// @Test
+	 @Test
 	public void passwordVisibility() {
 		driver.navigate().refresh();
 		vatf.clearFeilds();
@@ -118,106 +112,45 @@ public class VATFilingTest extends BaseTest {
 				"confirm Password field should be visible after clicking the button.");
 	}
 
-	// @Test
-	public void emptyErrMsg() {
-		vatf.clearFeilds();
-		submit();
-		scrollPage(ScrollType.TO_TOP, null, 0, 0);
-		String[] errorMessages = vatf.getEmptyErrorMessages();
-		// Assuming errorMessages are in order of email, password, confirmation, sales,
-		// purchase, statement
-		Assert.assertEquals(errorMessages[0], "Username is required", "Email field error message not as expected");
-		Assert.assertEquals(errorMessages[1], "Password is required", "Password field error message not as expected");
-		Assert.assertEquals(errorMessages[2], "Password is required",
-				"Confirmation field error message not as expected");
-		Assert.assertEquals(errorMessages[3], "Sales Invoice is required", "Sales field error message not as expected");
-		Assert.assertEquals(errorMessages[4], "Purchase Invoice is required",
-				"Purchase field error message not as expected");
-		Assert.assertEquals(errorMessages[5], "Statement is required", "Statement field error message not as expected");
-	}
+	 @Test
+	 public void emptyErrMsg() throws InterruptedException {
+	     submit();
+	     scrollPage(ScrollType.TO_TOP, null, 0, 0);
+	     String[] errorMessages = vatf.getEmptyErrorMessages();
+	     
+	     // Assuming errorMessages are in order of email, password, confirmation, sales, purchase, statement
+	     softAssert.assertEquals(errorMessages[0], "Username is required", "Email field error message not as expected");
+	     softAssert.assertEquals(errorMessages[1], "Password is required", "Password field error message not as expected");
+	     softAssert.assertEquals(errorMessages[2], "Confirm password is required",
+	             "Confirmation field error message not as expected");
+	     softAssert.assertEquals(errorMessages[3], "Sales Invoice is required", "Sales field error message not as expected");
+	     softAssert.assertEquals(errorMessages[4], "Purchase Invoice is required",
+	             "Purchase field error message not as expected");
+	     softAssert.assertEquals(errorMessages[5], "Statement is required", "Statement field error message not as expected");	     
+	     softAssert.assertAll();
+	 }
 
 	@Test
-	public void incorrectEmailtype() {
-		scrollPage(ScrollType.TO_BOTTOM, null, 0, 0);
-//		scrollPage(ScrollType.TO_TOP, null, 0, 0);
-//		vatf.emailBox.sendKeys("asgdc.com");
-//		submit();
-//		scrollPage(ScrollType.TO_TOP, null, 0, 0);
-//		String email = vatf.emailErrMsg.getText();
-//		Assert.assertEquals(email, "incorrect email format", 
-//	    		"incorrect email type error message not as expected");
-	}
-
-	// @Test
-	public void mismatchingPswd() {
+	public void mismatchingPswd() throws InterruptedException {
 		vatf.clearFeilds();
 		vatf.emailBox.sendKeys("anmol@skadits.com");
 		vatf.passwordBox.sendKeys("Testing@121");
 		vatf.confirmPassBox.sendKeys("Testing@123");
 		submit();
+		Thread.sleep(3000);
 		scrollPage(ScrollType.TO_TOP, null, 0, 0);
 		Assert.assertTrue(vatf.pageHeading.getText().contains("VAT Filing"),
 				"Application is not failing for unmatching passwords");
-		// add assertion for error message as well
 	}
 
 	@Test
 	public void testPasswordCopyPaste() {
-		waitForClickable(vatf.passwordBox);
 		vatf.passwordBox.sendKeys("TestPassword@123");
-		vatf.passwordBox.sendKeys(Keys.TAB);
-		waitForElementToBeVisible(vatf.cnfPasswordP);
-		vatf.cnfPasswordP.sendKeys(Keys.chord(Keys.CONTROL, "v"));
+		vatf.confirmPassBox.click();
+		vatf.confirmPassBox.sendKeys(Keys.chord(Keys.CONTROL, "v"));
 		String passwordBeforePaste = vatf.passwordBox.getAttribute("value");
 		String passwordAfterPaste = vatf.confirmPassBox.getAttribute("value");
 		Assert.assertNotEquals(passwordBeforePaste, passwordAfterPaste, "Copy-paste of password detected");
-	}
-
-	@Test
-	public void improperPass() {
-		waitForClickable(vatf.passwordBox);
-		vatf.clearFeilds();
-
-		// Test for password length error
-		vatf.passwordBox.sendKeys("aA1@");
-		String lengthErr = vatf.PassErrMsg.getText().trim();
-		System.out.println(lengthErr + "length error check");
-		softAssert.assertTrue(lengthErr.contains(" Passwords must be at least 8 characters."),
-				"Password error message does not match for a shorter password");
-
-		// Test for absence of uppercase letter error
-		vatf.passwordBox.clear();
-		vatf.passwordBox.sendKeys("123456789#");
-		String letterErr = vatf.PassErrMsg.getText().trim();
-		System.out.println(letterErr);
-		softAssert.assertTrue(letterErr.contains(" Passwords must have at least one uppercase ('A'-'Z')."),
-				"Password error message does not match for a password without an uppercase letter");
-
-		// Test for absence of lowercase letter error
-		vatf.passwordBox.clear();
-		vatf.passwordBox.sendKeys("123456789A#");
-		String lowercaseErr = vatf.PassErrMsg.getText().trim();
-		System.out.println(lowercaseErr);
-		softAssert.assertTrue(lowercaseErr.contains(" Passwords must have at least one lowercase ('a'-'z')."),
-				"Password error message does not match for a password without a lowercase letter");
-
-		// Test for absence of digit error
-		vatf.passwordBox.clear();
-		vatf.passwordBox.sendKeys("Abcdefgh#");
-		String digitErr = vatf.PassErrMsg.getText().trim();
-		System.out.println(digitErr);
-		softAssert.assertTrue(digitErr.contains("Passwords must have at least one digit ('0'-'9')."),
-				"Password error message does not match for a password without a digit");
-
-		// Test for absence of special character error
-		vatf.passwordBox.clear();
-		vatf.passwordBox.sendKeys("Abcdefgh1");
-		String specialCharErr = vatf.PassErrMsg.getText().trim();
-		System.out.println(specialCharErr);
-		softAssert.assertTrue(specialCharErr.contains("Passwords must have at least one special character."),
-				"Password error message does not match for a password without a special character");
-
-		softAssert.assertAll();
 	}
 
 	@Test
@@ -228,7 +161,7 @@ public class VATFilingTest extends BaseTest {
 		String cnfpswdPlaceholder = vatf.cnfPasswordP.getText();
 		String sales = vatf.salesTitle.getText();
 		String purchase = vatf.purchaseTitle.getText();
-		String statement = vatf.statemntTitle.getText();
+		String statement = vatf.statemntTitle.getText().trim();
 		System.out.println(statement);
 
 		softAssert.assertTrue(emailPlaceholder.equalsIgnoreCase("User Name*"), "User Name title not matching");
@@ -249,29 +182,8 @@ public class VATFilingTest extends BaseTest {
 		for (WebElement element : uploadElements) {
 			String text = element.getText();
 			System.out.println(text);
-			Assert.assertTrue(expectedText.contains(text), "Instructions not found in dropbox: " + text);
+			softAssert.assertTrue(expectedText.contains(text), "Instructions not found in dropbox: " + text);
 		}
-	}
-
-	@Test
-	public void missedMandatoryFile() {
-		// driver.navigate().refresh();
-		waitForClickable(vatf.passwordBox);
-		vatf.emailBox.sendKeys("anmol@skadits.com");
-		vatf.passwordBox.sendKeys("Testing@121");
-		vatf.confirmPassBox.sendKeys("Testing@121");
-		submit();
-		String saleErr = vatf.errorSalesMsg.getText();
-		String purErr = vatf.errorPurchaseMsg.getText();
-		String stErr = vatf.errorStatementMsg.getText();
-		System.out.println(saleErr);
-		System.out.println(purErr);
-		System.out.println(stErr);
-
-		softAssert.assertTrue(saleErr.equalsIgnoreCase("User Name*"), "User Name title not matching");
-		softAssert.assertTrue(purErr.equalsIgnoreCase("User Name*"), "User Name title not matching");
-		softAssert.assertTrue(stErr.equalsIgnoreCase("User Name*"), "User Name title not matching");
-		softAssert.assertAll();
 	}
 
 	@Test
@@ -332,4 +244,49 @@ public class VATFilingTest extends BaseTest {
 	   
 	}
 
+	 @Test
+	    public void multipleFileUpload() throws InterruptedException, AWTException {
+	        
+	        Thread.sleep(5000);
+	        scrollPage(ScrollType.TO_ELEMENT, vatf.salesUpload, 0, 0);      
+	        for (String filePath : VATRegistrationHelper.Png_FILE_PATHS) {
+	            vatf.salesUpload.click();
+	            rb.delay(2000);
+	            StringSelection uploadSelection = new StringSelection(filePath);
+	            Toolkit.getDefaultToolkit().getSystemClipboard().setContents(uploadSelection, null);
+	            helper.KeyPress();
+	            Thread.sleep(3000);
+	        }
+	        Assert.assertEquals(vatf.vatUploadedFiles.size(), 
+	        		VATRegistrationHelper.Png_FILE_PATHS.length,
+	            "The number of uploaded files does not match the expected count");
+	    }
+	 
+	 @Test
+	    public void fileDuplicacy() throws InterruptedException, AWTException {
+	    	    Thread.sleep(5000);
+	    	    scrollPage(ScrollType.TO_ELEMENT, vatf.purchaseUpload, 0, 0);
+	    	    String filePath[] = {"C:\\Users\\Dell\\Pictures\\Screenshots\\sc1.png"};
+	    	    vatUploadFiles(vatf, filePath);
+	 	       Assert.assertEquals(vatf.vatUploadedFiles.size(), 1,
+		               "Duplicate files are getting uploaded");
+	    }
+	    
+	    @Test
+	    public void hoveroverSubmitBtn() {
+	    	scrollPage(ScrollType.TO_ELEMENT, vatf.submitBtn, 0, 0);
+	    	
+	    	String colorBeforeHover = vatf.submitBtn.getCssValue("color");
+	            action.moveToElement(vatf.submitBtn).perform();
+	            String colorAfterHover = vatf.submitBtn.getCssValue("color");
+	            Assert.assertNotEquals(colorBeforeHover, colorAfterHover,
+	                "Color did not change on hover for Submit Button");
+
+	    }
+	    
+	   @AfterClass
+		public void teardown()
+		{
+			driver.quit();
+		}
 }

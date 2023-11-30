@@ -23,7 +23,7 @@ public class VatFilingLocator {
 	@FindBy(xpath = "//input[@name='FTA_UserName']")
 	public WebElement emailBox;
 	
-	@FindBy(xpath = "(//input[contains(@placeholder,'')])[2]")
+	@FindBy(xpath = "//section/form/div[1]/div[2]/div/input")
 	public WebElement passwordBox;
 	
 	@FindBy(xpath = "(//*[name()='svg'])[4]")
@@ -72,19 +72,19 @@ public class VatFilingLocator {
 	@FindBy(xpath = "//*[@id=\"layout-wrapper\"]/div/div/div/app-vat-filing/section/form/div[2]/div[1]/div/label")
 	public WebElement salesUpload;
 	
-	@FindBy(xpath = "//div[2]//div[2]//div[1]//label[1]/div/div")
+	@FindBy(xpath = "//*[@id=\"layout-wrapper\"]/div/div/div/app-vat-filing/section/form/div[2]/div[2]/div/label")
 	public WebElement purchaseUpload;
 	
-	@FindBy(xpath = "//div[2]//div[3]//div[1]//label[1]/div/div")
+	@FindBy(xpath = "//*[@id=\"layout-wrapper\"]/div/div/div/app-vat-filing/section/form/div[2]/div[3]/div/label")
 	public WebElement statementUpload;
 	
 	@FindBy(xpath = "//form/div[1]/div[1]/div/div")
 	public WebElement emailErrMsg;
 	
-	@FindBy(xpath = "//form/div[1]/div[2]/div/div")
+	@FindBy(xpath = "//section/form/div[1]/div[2]/div/div[2]/span")
 	public WebElement PassErrMsg;
 	
-	@FindBy(xpath = "//form/div[1]/div[3]/div/div")
+	@FindBy(xpath = "//section/form/div[1]/div[3]/div/div[2]/span")
 	public WebElement CnfPassErrMsg;
 	
 	@FindBy(xpath = "//form/div[2]/div[1]/div[2]")
@@ -99,13 +99,13 @@ public class VatFilingLocator {
 	@FindBy(id ="mat-option-0")
 	public WebElement period1;
 	
-	@FindBy(id ="mat-option-0")
+	@FindBy(id ="mat-option-1")
 	public WebElement period2;
 	
-	@FindBy(id ="mat-option-0")
+	@FindBy(id ="mat-option-2")
 	public WebElement period3;
 	
-	@FindBy(id ="mat-option-0")
+	@FindBy(id ="mat-option-3")
 	public WebElement period4;
 	
 	@FindBy(xpath = "//section/form/div[3]/div/div/div")

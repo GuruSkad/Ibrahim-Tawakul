@@ -5,30 +5,30 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class VatDeregistrationLocator {
+public class VatAmendmentLocators {
 	WebDriver driver;
-	public VatDeregistrationLocator(WebDriver driver)
+	public VatAmendmentLocators(WebDriver driver)
 	{
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
 	}
 
-	@FindBy(xpath = "//span[normalize-space()='VAT deregistration']")
-	public WebElement vatDereBtn;
+	@FindBy(xpath = "//span[normalize-space()='VAT Amendment']")
+	public WebElement vatAnmdBtn;
 	
-	@FindBy(xpath = "//h1[normalize-space()='VAT Deregistration']")
+	@FindBy(xpath = "//h1[normalize-space()='VAT Amendment']")
 	public WebElement pageHeading;
 	
 	@FindBy(xpath = "//h1[normalize-space()='Order Detail List']")
 	public WebElement orderPageTitle;
 	
-	@FindBy(xpath = "//section/form/div/div[1]/div/input")
+	@FindBy(name = "username")
 	public WebElement userName;
 	
-	@FindBy(xpath = "//section/form/div/div[2]/div/input")
+	@FindBy(name = "password")
 	public WebElement password;
 	
-	@FindBy(xpath = "//section/form/div/div[3]/div/input")
+	@FindBy(xpath = "//input[@name='Password']")
 	public WebElement cnfPassword;
 	
 	@FindBy(xpath = "(//*[name()='svg'])[4]")
@@ -52,10 +52,10 @@ public class VatDeregistrationLocator {
 	@FindBy(xpath = "//form/div/div[3]/div/div/span")
 	public WebElement cnfPassErrMsg;
 	
-	@FindBy(xpath = "/html[1]/body[1]/div[4]/div[1]/div[2]")
-	public WebElement submitWrngMsg;
+	@FindBy(xpath = "(//div[@id='swal2-html-container'])[1]")
+	public WebElement vatAmnCnfMsg;
 	
-	@FindBy(xpath = "//button[normalize-space()='Yes, Submit']")
+	@FindBy(xpath = "//button[normalize-space()='Yes, Save it']")
 	public WebElement finalSubmitBtn;
 	
 	@FindBy(xpath = "//button[normalize-space()='No, Cancel']")

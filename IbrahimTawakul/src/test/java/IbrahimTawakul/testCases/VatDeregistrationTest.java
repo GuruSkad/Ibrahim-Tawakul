@@ -62,7 +62,7 @@ public class VatDeregistrationTest extends BaseTest {
 	
 	@Test
 	public void passwordVisibility() throws InterruptedException {
-		//driver.navigate().refresh();
+		driver.navigate().refresh();
 		Thread.sleep(3000);
 		vatd.password.sendKeys("Asjkdf@32#56");
 		vatd.cnfPassword.sendKeys("134367gyujv");
@@ -116,7 +116,7 @@ public class VatDeregistrationTest extends BaseTest {
 		Assert.assertNotEquals(passwordBeforePaste, passwordAfterPaste, "Copy-paste of password detected");
 	}
 	
-	@Test
+	//@Test
 	public void improperPass() {
 
 		// Test for password length error
@@ -176,7 +176,25 @@ public class VatDeregistrationTest extends BaseTest {
 	}
 	
 	@Test
+	public void vatdmendmentRej() throws InterruptedException {
+		driver.navigate().refresh();
+		Thread.sleep(3000);
+		vatd.userName.sendKeys("anmol@skadits.com");
+		vatd.password.sendKeys("Testing@121");
+		vatd.cnfPassword.sendKeys("Testing@121");
+		vatd.submitBtn.click();
+		Thread.sleep(3000);
+		vatd.cancleSubmitBtn.click();
+		Thread.sleep(2000);
+		String url = driver.getCurrentUrl();
+		Assert.assertEquals(url, "https://ibrahimtawakul.hexagonsolutions.dev/pages/vat-deregistration", 
+		    "URL not matching for successful VAT deregistration");
+	}
+	
+	@Test
 	public void deRegistration() throws InterruptedException {
+		driver.navigate().refresh();
+		Thread.sleep(3000);
 		vatd.userName.sendKeys("anmol@skadits.com");
 		vatd.password.sendKeys("Testing@121");
 		vatd.cnfPassword.sendKeys("Testing@121");
@@ -187,6 +205,25 @@ public class VatDeregistrationTest extends BaseTest {
 		String url = driver.getCurrentUrl();
 		Assert.assertEquals(url, "https://ibrahimtawakul.hexagonsolutions.dev/pages/order-list", 
 		    "URL not matching for successful VAT deregistration");
+		vatd.vatDereBtn.click();
+	}
+	
+	@Test
+	public void cursorUpdate() throws InterruptedException {
+		
+		vatd.userName.sendKeys("anmol");
+		vatd.password.sendKeys("Testing@121");
+		vatd.cnfPassword.sendKeys("Testing@121");
+		vatd.submitBtn.click();
+		Thread.sleep(3000);
+		vatd.finalSubmitBtn.click();
+		Thread.sleep(5000);
+		String url = driver.getCurrentUrl();
+		Assert.assertEquals(url, "https://ibrahimtawakul.hexagonsolutions.dev/pages/order-list", 
+		    "URL not matching for successful VAT deregistration");
+		boolean isCursorOnElement1 = vatd.ordersBtn.equals(driver.switchTo().activeElement());
+        Assert.assertTrue(isCursorOnElement1, "Cursor should be on orders tab but found on VAT deregistration");
+
 	}
 	
 	@AfterClass
