@@ -32,6 +32,7 @@ public class VATFilingTest extends BaseTest {
 	private VatFilingLocator vatf;
 	private SoftAssert softAssert;
 	private Actions action;
+
 	@BeforeClass
 	public void initilazeLocatprs() throws AWTException, InterruptedException {
 		login = new LoginPageLocators(driver);
@@ -68,10 +69,11 @@ public class VATFilingTest extends BaseTest {
 		}
 	}
 
-	public void submit() throws InterruptedException {	     
-	scrollPage(ScrollType.TO_BOTTOM, null, 0, 0);
-    Thread.sleep(2000);
-    vatf.submitBtn.click();}
+	public void submit() throws InterruptedException {
+		scrollPage(ScrollType.TO_BOTTOM, null, 0, 0);
+		Thread.sleep(2000);
+		vatf.submitBtn.click();
+	}
 
 	@Test
 	public void titleValidation() {
@@ -93,7 +95,7 @@ public class VATFilingTest extends BaseTest {
 
 	}
 
-	 @Test
+	@Test
 	public void passwordVisibility() {
 		driver.navigate().refresh();
 		vatf.clearFeilds();
@@ -112,23 +114,27 @@ public class VATFilingTest extends BaseTest {
 				"confirm Password field should be visible after clicking the button.");
 	}
 
-	 @Test
-	 public void emptyErrMsg() throws InterruptedException {
-	     submit();
-	     scrollPage(ScrollType.TO_TOP, null, 0, 0);
-	     String[] errorMessages = vatf.getEmptyErrorMessages();
-	     
-	     // Assuming errorMessages are in order of email, password, confirmation, sales, purchase, statement
-	     softAssert.assertEquals(errorMessages[0], "Username is required", "Email field error message not as expected");
-	     softAssert.assertEquals(errorMessages[1], "Password is required", "Password field error message not as expected");
-	     softAssert.assertEquals(errorMessages[2], "Confirm password is required",
-	             "Confirmation field error message not as expected");
-	     softAssert.assertEquals(errorMessages[3], "Sales Invoice is required", "Sales field error message not as expected");
-	     softAssert.assertEquals(errorMessages[4], "Purchase Invoice is required",
-	             "Purchase field error message not as expected");
-	     softAssert.assertEquals(errorMessages[5], "Statement is required", "Statement field error message not as expected");	     
-	     softAssert.assertAll();
-	 }
+	@Test
+	public void emptyErrMsg() throws InterruptedException {
+		submit();
+		scrollPage(ScrollType.TO_TOP, null, 0, 0);
+		String[] errorMessages = vatf.getEmptyErrorMessages();
+
+		// Assuming errorMessages are in order of email, password, confirmation, sales,
+		// purchase, statement
+		softAssert.assertEquals(errorMessages[0], "Username is required", "Email field error message not as expected");
+		softAssert.assertEquals(errorMessages[1], "Password is required",
+				"Password field error message not as expected");
+		softAssert.assertEquals(errorMessages[2], "Confirm password is required",
+				"Confirmation field error message not as expected");
+		softAssert.assertEquals(errorMessages[3], "Sales Invoice is required",
+				"Sales field error message not as expected");
+		softAssert.assertEquals(errorMessages[4], "Purchase Invoice is required",
+				"Purchase field error message not as expected");
+		softAssert.assertEquals(errorMessages[5], "Statement is required",
+				"Statement field error message not as expected");
+		softAssert.assertAll();
+	}
 
 	@Test
 	public void mismatchingPswd() throws InterruptedException {
@@ -191,102 +197,96 @@ public class VATFilingTest extends BaseTest {
 		driver.navigate().refresh();
 		Thread.sleep(4000);
 		vatUploadFiles(vatf, VATRegistrationHelper.Jpeg_FILE_PATHS);
-	       Assert.assertEquals(vatf.vatUploadedFiles.size(),3,
-	               "The number of uploaded Jpeg files does not match the expected count");
-	    }
+		Assert.assertEquals(vatf.vatUploadedFiles.size(), 3,
+				"The number of uploaded Jpeg files does not match the expected count");
+	}
 
 	@Test
 	public void pngUpload() throws InterruptedException, AWTException {
 		driver.navigate().refresh();
 		Thread.sleep(4000);
 		vatUploadFiles(vatf, VATRegistrationHelper.Png_FILE_PATHS);
-	       Assert.assertEquals(vatf.vatUploadedFiles.size(), 3,
-	               "The number of uploaded png files does not match the expected count");
-	   
+		Assert.assertEquals(vatf.vatUploadedFiles.size(), 3,
+				"The number of uploaded png files does not match the expected count");
+
 	}
-	
+
 	@Test
 	public void pdfUpload() throws InterruptedException, AWTException {
 		driver.navigate().refresh();
 		Thread.sleep(4000);
 		vatUploadFiles(vatf, VATRegistrationHelper.PDF_FILE_PATHS);
-	       Assert.assertEquals(vatf.vatUploadedFiles.size(), 3,
-	               "The number of uploaded pdf files does not match the expected count");
-	   
+		Assert.assertEquals(vatf.vatUploadedFiles.size(), 3,
+				"The number of uploaded pdf files does not match the expected count");
+
 	}
-	
+
 	@Test
 	public void wordUpload() throws InterruptedException, AWTException {
 		driver.navigate().refresh();
 		Thread.sleep(4000);
 		vatUploadFiles(vatf, VATRegistrationHelper.WORD_FILE_PATHS);
-	       Assert.assertEquals(vatf.vatUploadedFiles.size(), 3,
-	               "The number of uploaded Word files does not match the expected count");
-	   
+		Assert.assertEquals(vatf.vatUploadedFiles.size(), 3,
+				"The number of uploaded Word files does not match the expected count");
+
 	}
-	
+
 	@Test
 	public void txtUpload() throws InterruptedException, AWTException {
 		driver.navigate().refresh();
 		Thread.sleep(4000);
 		vatUploadFiles(vatf, VATRegistrationHelper.Txt_FILE_PATHS);
-		Assert.assertNull(vatf.vatUploadedFiles, 
-				"Unsupported Txt file is getting uploaded");
-	   
+		Assert.assertNull(vatf.vatUploadedFiles, "Unsupported Txt file is getting uploaded");
 	}
+
 	@Test
 	public void mp4Upload() throws InterruptedException, AWTException {
 		driver.navigate().refresh();
 		Thread.sleep(4000);
 		vatUploadFiles(vatf, VATRegistrationHelper.Mp4_FILE_PATHS);
-		Assert.assertNull(vatf.vatUploadedFiles, 
-				"Unsupported Mp4 file is getting uploaded");
-	   
+		Assert.assertNull(vatf.vatUploadedFiles, "Unsupported Mp4 file is getting uploaded");
+
 	}
 
-	 @Test
-	    public void multipleFileUpload() throws InterruptedException, AWTException {
-	        
-	        Thread.sleep(5000);
-	        scrollPage(ScrollType.TO_ELEMENT, vatf.salesUpload, 0, 0);      
-	        for (String filePath : VATRegistrationHelper.Png_FILE_PATHS) {
-	            vatf.salesUpload.click();
-	            rb.delay(2000);
-	            StringSelection uploadSelection = new StringSelection(filePath);
-	            Toolkit.getDefaultToolkit().getSystemClipboard().setContents(uploadSelection, null);
-	            helper.KeyPress();
-	            Thread.sleep(3000);
-	        }
-	        Assert.assertEquals(vatf.vatUploadedFiles.size(), 
-	        		VATRegistrationHelper.Png_FILE_PATHS.length,
-	            "The number of uploaded files does not match the expected count");
-	    }
-	 
-	 @Test
-	    public void fileDuplicacy() throws InterruptedException, AWTException {
-	    	    Thread.sleep(5000);
-	    	    scrollPage(ScrollType.TO_ELEMENT, vatf.purchaseUpload, 0, 0);
-	    	    String filePath[] = {"C:\\Users\\Dell\\Pictures\\Screenshots\\sc1.png"};
-	    	    vatUploadFiles(vatf, filePath);
-	 	       Assert.assertEquals(vatf.vatUploadedFiles.size(), 1,
-		               "Duplicate files are getting uploaded");
-	    }
-	    
-	    @Test
-	    public void hoveroverSubmitBtn() {
-	    	scrollPage(ScrollType.TO_ELEMENT, vatf.submitBtn, 0, 0);
-	    	
-	    	String colorBeforeHover = vatf.submitBtn.getCssValue("color");
-	            action.moveToElement(vatf.submitBtn).perform();
-	            String colorAfterHover = vatf.submitBtn.getCssValue("color");
-	            Assert.assertNotEquals(colorBeforeHover, colorAfterHover,
-	                "Color did not change on hover for Submit Button");
+	@Test
+	public void multipleFileUpload() throws InterruptedException, AWTException {
 
-	    }
-	    
-	   @AfterClass
-		public void teardown()
-		{
-			driver.quit();
+		Thread.sleep(5000);
+		scrollPage(ScrollType.TO_ELEMENT, vatf.salesUpload, 0, 0);
+		for (String filePath : VATRegistrationHelper.Png_FILE_PATHS) {
+			vatf.salesUpload.click();
+			rb.delay(2000);
+			StringSelection uploadSelection = new StringSelection(filePath);
+			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(uploadSelection, null);
+			helper.KeyPress();
+			Thread.sleep(3000);
 		}
+		Assert.assertEquals(vatf.vatUploadedFiles.size(), VATRegistrationHelper.Png_FILE_PATHS.length,
+				"The number of uploaded files does not match the expected count");
+	}
+
+	@Test
+	public void fileDuplicacy() throws InterruptedException, AWTException {
+		Thread.sleep(5000);
+		scrollPage(ScrollType.TO_ELEMENT, vatf.purchaseUpload, 0, 0);
+
+		vatUploadFiles(vatf, VATRegistrationHelper.DuplicatFile);
+		Assert.assertEquals(vatf.vatUploadedFiles.size(), 1, "Duplicate files are getting uploaded");
+	}
+
+	@Test
+	public void hoveroverSubmitBtn() {
+		scrollPage(ScrollType.TO_ELEMENT, vatf.submitBtn, 0, 0);
+
+		String colorBeforeHover = vatf.submitBtn.getCssValue("color");
+		action.moveToElement(vatf.submitBtn).perform();
+		String colorAfterHover = vatf.submitBtn.getCssValue("color");
+		Assert.assertNotEquals(colorBeforeHover, colorAfterHover, "Color did not change on hover for Submit Button");
+
+	}
+
+	@AfterClass
+	public void teardown() {
+		driver.quit();
+	}
 }

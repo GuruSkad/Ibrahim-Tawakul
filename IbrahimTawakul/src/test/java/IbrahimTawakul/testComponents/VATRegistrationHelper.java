@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import IbrahimTawakul.pageobjects.CorporateTaxLoc;
 import IbrahimTawakul.pageobjects.VatFilingLocator;
 import IbrahimTawakul.pageobjects.VatRegistrationLocators;
 
@@ -69,6 +70,23 @@ public class VATRegistrationHelper {
 	                return null;
 	        }
 	    }
+	    
+	    //
+	    public WebElement ctlUploadBtn(CorporateTaxLoc ctl, int index) {
+	        switch (index) {
+	            case 0:
+	                return ctl.tradeUploadBtn;
+	            case 1:
+	                return ctl.moaUploadBtn;
+	            case 2:
+	                return ctl.idUploadBtn;
+	            case 3:
+	            	return ctl.pasportUploadBtn;
+	            default:
+	                return null;
+	        }
+	    }
+	    
 	    // Change file paths
 	    public static final String[] PDF_FILE_PATHS = {
 	        "C:\\Users\\Dell\\Pictures\\Screenshots\\pc1.png",
@@ -118,4 +136,10 @@ public class VATRegistrationHelper {
 	    	    "C:\\Users\\Dell\\Pictures\\Screenshots\\sc5.png"
 	    	    };
 
+	    public static final String DuplicatFile[] = {
+	    		"C:\\Users\\Dell\\Pictures\\Screenshots\\sc1.png",
+	    		"C:\\Users\\Dell\\Pictures\\Screenshots\\sc1.png",
+	    		"C:\\Users\\Dell\\Pictures\\Screenshots\\sc1.png",
+	    		"C:\\Users\\Dell\\Pictures\\Screenshots\\sc1.png",
+	    		"C:\\Users\\Dell\\Pictures\\Screenshots\\sc1.png"};
 	}
