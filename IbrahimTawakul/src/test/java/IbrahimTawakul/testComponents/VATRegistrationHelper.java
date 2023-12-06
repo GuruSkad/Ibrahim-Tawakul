@@ -89,28 +89,28 @@ public class VATRegistrationHelper {
 	    
 	    // Change file paths
 	    public static final String[] PDF_FILE_PATHS = {
-	        "C:\\Users\\Dell\\Pictures\\Screenshots\\pc1.png",
-	        "C:\\Users\\Dell\\Pictures\\Screenshots\\pc2.png",
-	        "C:\\Users\\Dell\\Pictures\\Screenshots\\pc3.png",
-	        "C:\\Users\\Dell\\Pictures\\Screenshots\\pc4.png",
-	        "C:\\Users\\Dell\\Pictures\\Screenshots\\pc5.png"
-	    };
+	        "C:\\Users\\Dell\\Downloads\\files\\pdf1.pdf",
+	        "C:\\Users\\Dell\\Downloads\\files\\pdf2.pdf",
+	        "C:\\Users\\Dell\\Downloads\\files\\pdf3.pdf",
+	        "C:\\Users\\Dell\\Downloads\\files\\pdf4.pdf",
+	        "C:\\Users\\Dell\\Downloads\\files\\pdf5.pdf"
+	        };
 
 	    public static final String[] WORD_FILE_PATHS = {
-	    		"C:\\Users\\Dell\\Pictures\\Screenshots\\sc1.png",
-	    	    "C:\\Users\\Dell\\Pictures\\Screenshots\\sc2.png",
-	    	    "C:\\Users\\Dell\\Pictures\\Screenshots\\sc3.png",
-	    	    "C:\\Users\\Dell\\Pictures\\Screenshots\\sc4.png",
-	    	    "C:\\Users\\Dell\\Pictures\\Screenshots\\sc5.png"
-	    	    };
+	    		"C:\\Users\\Dell\\Downloads\\files\\word1.doc",
+	    		"C:\\Users\\Dell\\Downloads\\files\\word2.doc",
+	    		"C:\\Users\\Dell\\Downloads\\files\\word3.doc",
+	    		"C:\\Users\\Dell\\Downloads\\files\\word4.doc",
+	    		"C:\\Users\\Dell\\Downloads\\files\\word5.doc"
+	    		};
 	    
 	    public static final String[] Jpeg_FILE_PATHS = {
-	    		"C:\\Users\\Dell\\Pictures\\Screenshots\\sc9.png",
-	    	    "C:\\Users\\Dell\\Pictures\\Screenshots\\sc10.png",
-	    	    "C:\\Users\\Dell\\Pictures\\Screenshots\\sc11.png",
-	    	    "C:\\Users\\Dell\\Pictures\\Screenshots\\sc4.png",
-	    	    "C:\\Users\\Dell\\Pictures\\Screenshots\\sc5.png"
-	    	    };
+	    		"C:\\Users\\Dell\\Downloads\\files\\jpg1.jpg",
+	    		"C:\\Users\\Dell\\Downloads\\files\\jpg2.jpg",
+	    		"C:\\Users\\Dell\\Downloads\\files\\jpg3.jpg",
+	    		"C:\\Users\\Dell\\Downloads\\files\\jpg4.jpg",
+	    		"C:\\Users\\Dell\\Downloads\\files\\jpg5.jpg"
+	    		};
 	    
 	    public static final String[] Png_FILE_PATHS = {
 	    		"C:\\Users\\Dell\\Pictures\\Screenshots\\sc1.png",
@@ -121,20 +121,20 @@ public class VATRegistrationHelper {
 	    	    };
 	    
 	    public static final String[] Txt_FILE_PATHS = {
-	    		"C:\\Users\\Dell\\Pictures\\Screenshots\\sc1.png",
-	    	    "C:\\Users\\Dell\\Pictures\\Screenshots\\sc2.png",
-	    	    "C:\\Users\\Dell\\Pictures\\Screenshots\\sc3.png",
-	    	    "C:\\Users\\Dell\\Pictures\\Screenshots\\sc4.png",
-	    	    "C:\\Users\\Dell\\Pictures\\Screenshots\\sc5.png"
-	    	    };
+	    		"C:\\Users\\Dell\\Downloads\\files\\txt1.txt",
+	    		"C:\\Users\\Dell\\Downloads\\files\\txt2.txt",
+	    		"C:\\Users\\Dell\\Downloads\\files\\txt3.txt",
+	    		"C:\\Users\\Dell\\Downloads\\files\\txt4.txt",
+	    		"C:\\Users\\Dell\\Downloads\\files\\txt5.txt"
+	    		};
 	    
 	    public static final String[] Mp4_FILE_PATHS = {
-	    		"C:\\Users\\Dell\\Pictures\\Screenshots\\sc1.png",
-	    	    "C:\\Users\\Dell\\Pictures\\Screenshots\\sc2.png",
-	    	    "C:\\Users\\Dell\\Pictures\\Screenshots\\sc3.png",
-	    	    "C:\\Users\\Dell\\Pictures\\Screenshots\\sc4.png",
-	    	    "C:\\Users\\Dell\\Pictures\\Screenshots\\sc5.png"
-	    	    };
+	    		"C:\\Users\\Dell\\Downloads\\files\\mp4 1.mp4",
+	    		"C:\\Users\\Dell\\Downloads\\files\\mp4 2.mp4",
+	    		"C:\\Users\\Dell\\Downloads\\files\\mp4 3.mp4",
+	    		"C:\\Users\\Dell\\Downloads\\files\\mp4 4.mp4",
+	    		"C:\\Users\\Dell\\Downloads\\files\\mp4 5.mp4"
+	    		};
 
 	    public static final String DuplicatFile[] = {
 	    		"C:\\Users\\Dell\\Pictures\\Screenshots\\sc1.png",

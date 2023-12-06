@@ -95,7 +95,7 @@ public class LoginTestCase extends BaseTest {
 	}
 
 	@Test
-	public void testLoginSwitchTabsAndLogout() throws InterruptedException {
+	public void keyboardTest() throws InterruptedException {
 		login.loginApplication("anmol.smit@gmail.com", "Anmolkumar@1234");
 		String originalWindow = driver.getWindowHandle();
 		((JavascriptExecutor) driver)

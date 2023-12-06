@@ -7,12 +7,11 @@ import java.awt.datatransfer.StringSelection;
 import java.util.Arrays;
 import java.util.List;
 
-import org.openqa.selenium.Keys;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -20,10 +19,8 @@ import org.testng.asserts.SoftAssert;
 
 import IbrahimTawakul.pageobjects.CorporateTaxLoc;
 import IbrahimTawakul.pageobjects.LoginPageLocators;
-import IbrahimTawakul.pageobjects.VatRegistrationLocators;
 import IbrahimTawakul.testComponents.BaseTest;
 import IbrahimTawakul.testComponents.VATRegistrationHelper;
-import IbrahimTawakul.testComponents.BaseTest.ScrollType;
 
 public class CorporateTaxTest extends BaseTest {
 	private LoginPageLocators login;
@@ -43,12 +40,17 @@ public class CorporateTaxTest extends BaseTest {
 		gotoctl();
 		softAssert = new SoftAssert();
 	}
+	
+	@BeforeMethod
+	public void refresh() {
+		driver.navigate().refresh();
+		}
 
 	public void gotoctl() throws InterruptedException {
 		login.userName.sendKeys("anmol@skadits.com");
 		login.password1.sendKeys("Testing@121");
 		login.loginButton.click();
-		Thread.sleep(8000);
+		Thread.sleep(4000);
 		ctl.corporateTaxBtn.click();
 	}
 
@@ -69,11 +71,20 @@ public class CorporateTaxTest extends BaseTest {
 		}
 	}
 
-	public void submit() throws InterruptedException {
-		scrollPage(ScrollType.TO_BOTTOM, null, 0, 0);
-		Thread.sleep(2000);
-		ctl.submitBtn.click();
-	}
+//	public void submit() throws InterruptedException {
+//		scrollPage(ScrollType.TO_ELEMENT, ctl.submitBtn, 0, 0);
+//		Thread.sleep(3000);
+//		ctl.submitBtn.click();
+//		Thread.sleep(3000);
+//		Assert.assertEquals(ctl.vatAmnCnfMsg.getText(), 
+//				"Please check information before submitting!"," confirmation msg not found");
+//		ctl.finalSubmitBtn.click();
+//		Thread.sleep(5000);
+//		String url = driver.getCurrentUrl();
+//		Assert.assertEquals(url, "https://ibrahimtawakul.hexagonsolutions.dev/pages/order-list", 
+//		    "URL not matching for successful VAT deregistration");
+//		ctl.vatAnmdBtn.click();
+//		}
 	
 	
 	@Test
@@ -96,13 +107,74 @@ public class CorporateTaxTest extends BaseTest {
 	}
 
 	@Test
+	public void responsiveUITesting() {
+	    // iPad Viewport Size
+	    driver.manage().window().setSize(new Dimension(768, 1024));
+	    performAssertions("iPad");
+
+	    // Android Viewport Size (considering a common mobile resolution)
+	    driver.manage().window().setSize(new Dimension(360, 640));
+	    performAssertions("Android");
+
+	    // iPhone Viewport Size (considering an iPhone X resolution)
+	    driver.manage().window().setSize(new Dimension(375, 812));
+	    performAssertions("iPhone");
+	}
+
+	public void performAssertions(String device) {
+	    // Assertions for each device-specific scenario
+	    switch (device) {
+	        case "iPad":
+	            Assert.assertTrue(ctl.pageTitle.getText().contains("Corporate Tax"),
+	                    "Page title doesn't match for iPad");
+	            Assert.assertTrue(ctl.userName.isDisplayed(), "User name box is not displayed for iPad");
+	            Assert.assertTrue(ctl.passwordBox.isDisplayed(), "Password box is not displayed for iPad");
+	            Assert.assertTrue(login.userBtn.isEnabled(), "User button is not enabled for iPad");
+	            Assert.assertTrue(ctl.tradeTittle.isDisplayed(), "Trade upload is not displayed for iPad");
+	            Assert.assertTrue(ctl.moaTittle.isDisplayed(), "Moa upload is not displayed for iPad");
+	            Assert.assertTrue(ctl.idTittle.isDisplayed(), "Emirates id upload is not displayed for iPad");
+	            Assert.assertTrue(ctl.passportTittle.isDisplayed(), "Passport upload is not displayed for iPad");
+	            Assert.assertTrue(ctl.submitBtn.isDisplayed(), "Submit button is not displayed for iPad");
+	            break;
+
+	        case "Android":
+	            Assert.assertTrue(ctl.userName.isDisplayed(), "User name box is not displayed for Android");
+	            Assert.assertTrue(ctl.passwordBox.isDisplayed(), "Password box is not displayed for Android");
+	            Assert.assertTrue(login.userBtn.isEnabled(), "User button is not enabled for Android");
+	            Assert.assertTrue(ctl.submitBtn.isDisplayed(), "Submit button is not displayed for Android");
+	            break;
+
+	        case "iPhone":
+	            Assert.assertTrue(ctl.pageTitle.getText().contains("Corporate Tax"),
+	                    "Page title doesn't match for iPhone");
+	            Assert.assertTrue(ctl.passwordBox.isDisplayed(), "Password box is not displayed for iPhone");
+	            Assert.assertTrue(ctl.tradeTittle.isDisplayed(), "Trade upload is not displayed for iPhone");
+	            Assert.assertTrue(ctl.moaTittle.isDisplayed(), "Moa upload is not displayed for iPhone");
+	            Assert.assertTrue(ctl.submitBtn.isDisplayed(), "Submit button is not displayed for iPhone");
+	         
+	            break;
+
+	        default:
+	            break;
+	    }
+	    Assert.assertTrue(ctl.submitBtn.isDisplayed(),
+	            "Submit button is not displayed for " + device);
+	    Assert.assertTrue(ctl.tradeTittle.isDisplayed(),
+	            "Trade upload is not displayed for " + device);
+	    Assert.assertTrue(ctl.moaTittle.isDisplayed(),
+	            "Moa upload is not displayed for " + device);	    
+	}
+
+	
+	@Test
 	public void placeholderVerification() {
 
 		String emailPlaceholder = ctl.userNameP.getText();
 		String passPlaceholder = ctl.passwordP.getText();
-		Assert.assertTrue(emailPlaceholder.equalsIgnoreCase("email"), "Email placeholder not found");
-		Assert.assertEquals(passPlaceholder.equalsIgnoreCase("password"), 
+		softAssert.assertTrue(emailPlaceholder.equalsIgnoreCase("User Name"), "User Name placeholder not found");
+		softAssert.assertTrue(passPlaceholder.equalsIgnoreCase("Password"), 
 				"password placeholder not found");
+		softAssert.assertAll();
 	}
 
 	@Test
@@ -121,7 +193,9 @@ public class CorporateTaxTest extends BaseTest {
 
 	@Test
 	public void emptyErrMsg() throws InterruptedException {
-		submit();
+		scrollPage(ScrollType.TO_BOTTOM, null, 0, 0);
+		Thread.sleep(2000);
+		ctl.submitBtn.click();
 		scrollPage(ScrollType.TO_TOP, null, 0, 0);
 		String[] errorMessages = ctl.getEmptyErrorMessages();
 
@@ -176,7 +250,7 @@ public class CorporateTaxTest extends BaseTest {
 
 	@Test
 	public void JpegUpload() throws InterruptedException, AWTException {
-		driver.navigate().refresh();
+		//driver.navigate().refresh();
 		Thread.sleep(4000);
 		ctUploadFiles(ctl, VATRegistrationHelper.Jpeg_FILE_PATHS);
 		Assert.assertEquals(ctl.uploadedFiles.size(), 4,
@@ -185,7 +259,7 @@ public class CorporateTaxTest extends BaseTest {
 
 	@Test
 	public void pngUpload() throws InterruptedException, AWTException {
-		driver.navigate().refresh();
+		//driver.navigate().refresh();
 		Thread.sleep(4000);
 		ctUploadFiles(ctl, VATRegistrationHelper.Png_FILE_PATHS);
 		Assert.assertEquals(ctl.uploadedFiles.size(), 4,
@@ -195,7 +269,7 @@ public class CorporateTaxTest extends BaseTest {
 
 	@Test
 	public void pdfUpload() throws InterruptedException, AWTException {
-		driver.navigate().refresh();
+		//driver.navigate().refresh();
 		Thread.sleep(4000);
 		ctUploadFiles(ctl, VATRegistrationHelper.PDF_FILE_PATHS);
 		Assert.assertEquals(ctl.uploadedFiles.size(), 4,
@@ -205,7 +279,7 @@ public class CorporateTaxTest extends BaseTest {
 
 	@Test
 	public void wordUpload() throws InterruptedException, AWTException {
-		driver.navigate().refresh();
+		//driver.navigate().refresh();
 		Thread.sleep(4000);
 		ctUploadFiles(ctl, VATRegistrationHelper.WORD_FILE_PATHS);
 		Assert.assertEquals(ctl.uploadedFiles.size(), 4,
@@ -215,7 +289,7 @@ public class CorporateTaxTest extends BaseTest {
 
 	@Test
 	public void txtUpload() throws InterruptedException, AWTException {
-		driver.navigate().refresh();
+		//driver.navigate().refresh();
 		Thread.sleep(4000);
 		ctUploadFiles(ctl, VATRegistrationHelper.Txt_FILE_PATHS);
 		Assert.assertNull(ctl.uploadedFiles, "Unsupported Txt file is getting uploaded");
@@ -223,7 +297,7 @@ public class CorporateTaxTest extends BaseTest {
 
 	@Test
 	public void mp4Upload() throws InterruptedException, AWTException {
-		driver.navigate().refresh();
+		//driver.navigate().refresh();
 		Thread.sleep(4000);
 		ctUploadFiles(ctl, VATRegistrationHelper.Mp4_FILE_PATHS);
 		Assert.assertNull(ctl.uploadedFiles, "Unsupported Mp4 file is getting uploaded");
@@ -257,15 +331,35 @@ public class CorporateTaxTest extends BaseTest {
 	}
 
 	@Test
-	public void hoveroverSubmitBtn() {
+	public void hoveroverSubmitBtn() throws InterruptedException {
+		
 		scrollPage(ScrollType.TO_ELEMENT, ctl.submitBtn, 0, 0);
-
-		String colorBeforeHover = ctl.submitBtn.getCssValue("color");
+		Thread.sleep(3000);
+		String colorBeforeHover = ctl.submitBtn.getCssValue("background-color");
 		action.moveToElement(ctl.submitBtn).perform();
-		String colorAfterHover = ctl.submitBtn.getCssValue("color");
-		Assert.assertNotEquals(colorBeforeHover, colorAfterHover, "Color did not change on hover for Submit Button");
+		String colorAfterHover = ctl.submitBtn.getCssValue("background-color");
+		Assert.assertNotEquals(colorBeforeHover, colorAfterHover, "background-color did not change on hover for Submit Button");
 
 	}
+	
+	@Test
+	public void missMandDoc() throws InterruptedException, AWTException {
+		ctl.userName.sendKeys("Automation");
+		ctl.passwordBox.sendKeys("Testing@12");
+		ctUploadFiles(ctl, VATRegistrationHelper.DuplicatFile);
+		scrollPage(ScrollType.TO_BOTTOM, null, 0, 0);
+		Thread.sleep(2000);
+		ctl.submitBtn.click();
+		scrollPage(ScrollType.TO_TOP, null, 0, 0);
+		softAssert.assertEquals(ctl.errorMoaMsg.getText().trim(), "MOA is required",
+				"MOA field error message not as expected");
+		softAssert.assertEquals(ctl.errorIdMsg.getText().trim(), "Emirates ID is required",
+				"ID field error message not as expected");
+		softAssert.assertEquals(ctl.PassErrMsg.getText().trim(), "Passport is required",
+				"passport error message not as expected");
+		softAssert.assertAll();
+	}
+
 
 	@AfterClass
 	public void teardown() {

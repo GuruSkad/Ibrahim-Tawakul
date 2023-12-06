@@ -275,13 +275,13 @@ public class VATFilingTest extends BaseTest {
 	}
 
 	@Test
-	public void hoveroverSubmitBtn() {
+	public void hoveroverSubmitBtn() throws InterruptedException {
 		scrollPage(ScrollType.TO_ELEMENT, vatf.submitBtn, 0, 0);
-
-		String colorBeforeHover = vatf.submitBtn.getCssValue("color");
+		Thread.sleep(3000);
+		String colorBeforeHover = vatf.submitBtn.getCssValue("background-color");
 		action.moveToElement(vatf.submitBtn).perform();
-		String colorAfterHover = vatf.submitBtn.getCssValue("color");
-		Assert.assertNotEquals(colorBeforeHover, colorAfterHover, "Color did not change on hover for Submit Button");
+		String colorAfterHover = vatf.submitBtn.getCssValue("background-color");
+		Assert.assertNotEquals(colorBeforeHover, colorAfterHover, "background-color did not change on hover for Submit Button");
 
 	}
 

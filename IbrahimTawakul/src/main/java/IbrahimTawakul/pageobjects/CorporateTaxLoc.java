@@ -16,7 +16,7 @@ public class CorporateTaxLoc {
 		PageFactory.initElements(driver, this);
 	}
 
-	@FindBy(xpath = "//span[normalize-space()='Other Services']")
+	@FindBy(xpath = "//span[normalize-space()='Corporate Tax']")
 	public WebElement corporateTaxBtn;
 
 	@FindBy(xpath = "//h1[normalize-space()='Corporate Tax']")
@@ -82,7 +82,7 @@ public class CorporateTaxLoc {
 	@FindBy(xpath = "//form/div[2]/div[4]/div[2]")
 	public WebElement errPassportMsg;
 
-	@FindBy(css = "button[type='submit']")
+	@FindBy(xpath = "//button[contains(text(),'Submit')]")
 	public WebElement submitBtn;
 
 	@FindBy(xpath = "//section/form/div[3]/div/div")
@@ -116,7 +116,7 @@ public class CorporateTaxLoc {
 	    String trade = errorTradeMsg.getText();
 	    String moa  = errorMoaMsg.getText();
 	    String id = errorIdMsg.getText();
-	    String psprt = PassErrMsg.getText();
+	    String psprt = errPassportMsg.getText();
 	    return new String[] {email, pass, trade, moa, id, psprt};
 	}
 
