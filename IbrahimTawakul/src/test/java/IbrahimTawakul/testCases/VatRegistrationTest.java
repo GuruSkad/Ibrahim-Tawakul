@@ -336,4 +336,13 @@ public class VatRegistrationTest extends BaseTest{
 		public void tearDown() {
 			driver.quit();
 		}
-}
+		
+	@Test
+	public void minimiseMenu() {
+	    vat.minimiseMnuBtn.click();
+	    
+	    for (WebElement menuItem : vat.menuItems) {
+	        Assert.assertFalse(menuItem.isDisplayed(), "Menu items are still displayed after minimizing");
+	    }
+	}
+	}

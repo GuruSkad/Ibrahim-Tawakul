@@ -22,7 +22,7 @@ public class VatRegistrationLocators {
 	@FindBy(xpath = "//span[contains(text(),'MENU')]")
 	public WebElement menuText;
 	
-	@FindBy(className = "ri-arrow-left-s-line")
+	@FindBy(css = ".hamburger-icon")
 	public WebElement minimiseMnuBtn;
 	
 	@FindBy(xpath = "//h1[contains(text(),'VAT Registration')]")
