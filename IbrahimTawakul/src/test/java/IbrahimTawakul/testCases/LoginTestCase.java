@@ -2,6 +2,8 @@ package IbrahimTawakul.testCases;
 
 import org.testng.Assert;
 import org.openqa.selenium.JavascriptExecutor;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -17,12 +19,17 @@ import IbrahimTawakul.testComponents.BaseTest;
 public class LoginTestCase extends BaseTest {
 	private LoginPageLocators login;
 
-	@BeforeMethod
-	public void initializeLoginPageLocators() {
+	@BeforeClass
+	public void initializeLocators() {
 		login = new LoginPageLocators(driver);
 		login.clearFields();
 	}
 
+	@BeforeMethod
+	public void refresh() {
+		driver.navigate().refresh();
+	}
+	
 	@Test
 	public void linkValidation() {
 		SoftAssert assert1 = new SoftAssert();
@@ -66,25 +73,25 @@ public class LoginTestCase extends BaseTest {
 
 	}
 
-	@Test
-	public void editBoxColorChange() {
-		login.loginLogo.click();
-		String origLoginIdColor = login.userName.getCssValue("background-color");
-		String origPassColor = login.password1.getCssValue("background-color");
+	 @Test
+	    public void editBoxClassChange() {
+	        login.loginLogo.click();
+	        
+	        String origLoginIdClass = login.userName.getAttribute("class");
+	        String origPassClass = login.password1.getAttribute("class");
 
-		login.userName.sendKeys("a");
-		String userIdColorAfter = login.userName.getCssValue("background-color");
-		assert !origLoginIdColor.equals(userIdColorAfter);
+	        login.userName.sendKeys("a");
+	        String userIdClassAfter = login.userName.getAttribute("class");
+	        Assert.assertNotEquals(origLoginIdClass, userIdClassAfter, "Login box class didn't change");
 
-		login.password1.sendKeys("b");
-		String passColorAfter = login.password1.getCssValue("background-color");
-		assert !origPassColor.equals(passColorAfter);
-
-	}
+	        login.password1.sendKeys("b");
+	        String passClassAfter = login.password1.getAttribute("class");
+	        Assert.assertNotEquals(origPassClass, passClassAfter, "Password box class didn't change");
+	    }
 
 	@Test
 	public void testValidLogin() throws InterruptedException {
-		login.loginApplication("anmol.smit@gmail.com", "Anmolkumar@1234");
+		login.loginApplication("anmol@skadits.com", "Testing@121");
 		String title = driver.getTitle();
 		assert title.equals("Ibrahim Tawakul");
 		Thread.sleep(3000);
@@ -125,9 +132,11 @@ public class LoginTestCase extends BaseTest {
 		assert passErrTxt.contains("Password is required");
 	}
 
-	@Test
+	@Test(timeOut = 5000)
 	public void buttonHoverColorChange() {
+		waitForClickable(login.loginButton);
 		String origLoginColor = login.loginButton.getCssValue("background-color");
+		waitForClickable(login.signUpButton);
 		String origSignupColor = login.signUpButton.getCssValue("background-color");
 		Actions actions = new Actions(driver);
 		actions.moveToElement(login.loginButton).build().perform();
@@ -194,7 +203,7 @@ public class LoginTestCase extends BaseTest {
 
 	}
 
-	// @Test
+	@Test(enabled  = false)
 	public void inactiveAccount() {
 		login.loginApplication("inactive user", "testing");
 		String errorMessage = login.getErrorMessage.getText();
@@ -209,7 +218,7 @@ public class LoginTestCase extends BaseTest {
 
 	}
 
-	// @AfterMethod
+	@AfterClass
 	public void tearDown() {
 		driver.quit();
 	}

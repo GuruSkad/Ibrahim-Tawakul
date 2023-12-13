@@ -15,7 +15,7 @@ public class LoginPageLocators {
 		PageFactory.initElements(driver, this);
 	}
 
-	@FindBy(css = "div.text-center.loginLogo")
+	@FindBy(xpath = "(//img[@alt='Ibrahim-Tawakul-Logo'])[1]")
 	public WebElement loginLogo;
 	
 	@FindBy(xpath = "//*[@id=\"page-header-user-dropdown\"]/span")
@@ -33,7 +33,7 @@ public class LoginPageLocators {
 	@FindBy(name = "password")
 	public WebElement password1;
 
-	@FindBy(xpath = "//button[contains(text(),'Log in')]")
+	@FindBy(xpath = "//button[normalize-space()='Log in']")
 	public WebElement loginButton;
 
 	@FindBy(css = "[class*='signUpBtn']")

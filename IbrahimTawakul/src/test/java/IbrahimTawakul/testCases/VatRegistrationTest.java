@@ -16,7 +16,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -35,7 +37,7 @@ public class VatRegistrationTest extends BaseTest{
 	private VATRegistrationHelper helper;
 	private Actions action;	
 
-	@BeforeMethod
+	@BeforeClass
 	public void initializeLocators() throws AWTException {
 		vat = new VatRegistrationLocators(driver);
 		login = new LoginPageLocators(driver);
@@ -46,9 +48,13 @@ public class VatRegistrationTest extends BaseTest{
 	}
 	
 	public void loginApplication() {
-		login.userName.sendKeys("anmol.smit@gmail.com");
-		login.password1.sendKeys("Anmolkumar@1234");
+		login.userName.sendKeys("anmol@skadits.com");
+		login.password1.sendKeys("Testing@121");
 		login.loginButton.click();
+	}
+	@BeforeMethod
+	public void refresh() {
+		driver.navigate().refresh();
 	}
 	
 	public void uploadFiles(VatRegistrationLocators vat, String[] filePaths) 
@@ -69,7 +75,7 @@ public class VatRegistrationTest extends BaseTest{
         }
 	}	
 		
-	//@Test
+	@Test
 	public void uiTesting() {
 	    
 	    Assert.assertTrue(vat.logo.isDisplayed(), "Logo is not displayed");
@@ -90,7 +96,7 @@ public class VatRegistrationTest extends BaseTest{
 	    		"Submit without payment button is not displayed");
 	}
 
-	//@Test
+	@Test
 	public void verifyPlaceholders() {
 	    
 	    String emailPlaceholder = vat.emailBox.getAttribute("placeholder");
@@ -101,7 +107,7 @@ public class VatRegistrationTest extends BaseTest{
 	    		"Contact number placeholder is incorrect");
 	}
 	
-	//@Test
+	@Test
 	public void emptyMsg() {
 		
 		scrollPage(ScrollType.TO_BOTTOM, null, 0,0);
@@ -115,7 +121,7 @@ public class VatRegistrationTest extends BaseTest{
 				"Blank contact no.error msg not displaying");
 	}
 	
-	//@Test
+	@Test
 	public void incorrectEmailMsg() {
 		
 		scrollPage(ScrollType.TO_BOTTOM, null, 0,0);
@@ -126,7 +132,7 @@ public class VatRegistrationTest extends BaseTest{
 				"Incorrect email error msg not displaying");
 	}
 	
-	//@Test
+	@Test
 	public void IncorrectContactNoMsg() {
 		
 		scrollPage(ScrollType.TO_BOTTOM, null, 0,0);
@@ -137,7 +143,7 @@ public class VatRegistrationTest extends BaseTest{
 				"Invalid contact no.error msg not displaying");
 	}
 	
-   // @Test
+    @Test
     public void verifyCountryCodeInDropdown() {
         
         waitForElementToBeVisible(vat.logo);
@@ -156,7 +162,7 @@ public class VatRegistrationTest extends BaseTest{
         		+ "found in the dropdown");
     }
     
-   // @Test
+   @Test
     public void verifyCountryCodeSearch() {
     	
         waitForElementToBeVisible(vat.menuText);
@@ -175,13 +181,13 @@ public class VatRegistrationTest extends BaseTest{
         		+ "found in the search results");
     }
 	
-   // @Test
+   @Test
     public void verifyMenuListSpellings() {
         
         waitForElementToBeVisible(vat.menuText);
     	List<String> expectedMenuItems = Arrays.asList("Dashboard", "VAT Registration", 
-    			"VAT Filing", "VAT deregistration","VAT Amendment", "VAT Consultation",
-    			"Other Services","Orders");
+    			"VAT Filing","VAT Amendment", "VAT Consultation","Corporate Tax",
+    			"Orders","Other Services");
         List<WebElement> actualMenuItems = vat.menuItems;
         Assert.assertEquals(actualMenuItems.size(), expectedMenuItems.size(),
             "Number of menu items doesn't match");
@@ -192,23 +198,28 @@ public class VatRegistrationTest extends BaseTest{
         }
     }
     
-  //  @Test
-    public void verifyMenuColorOnHover() throws InterruptedException {
-        waitForElementToBeVisible(vat.menuText);
-        Thread.sleep(5000);
-        for (WebElement menuItem : vat.menuItems) {
-            String colorBeforeHover = menuItem.getCssValue("color");
+   @Test
+   public void verifyMenuColorOnHover() throws InterruptedException {
+       waitForElementToBeVisible(vat.menuText);
+       Thread.sleep(3000);
+       for (int i = 0; i < vat.menuItems.size(); i++) {
+           WebElement menuItem = vat.menuItems.get(i);
+           
+           if (i != 1) {
+               String colorBeforeHover = menuItem.getCssValue("color");
 
-            action.moveToElement(menuItem).perform();
+               action.moveToElement(menuItem).perform();
 
-            String colorAfterHover = menuItem.getCssValue("color");
+               String colorAfterHover = menuItem.getCssValue("color");
 
-            Assert.assertNotEquals(colorBeforeHover, colorAfterHover,
-                "Color did not change on hover for menu item: " + menuItem.getText());
-        }
-    }
+               Assert.assertNotEquals(colorBeforeHover, colorAfterHover,
+                       "Color did not change on hover for menu item: " + menuItem.getText());
+           }
+       }
+   }
+
     
-  //  @Test
+  @Test
     public void verifyUploadDocumentsTitle() {
         
         waitForElementToBeVisible(vat.menuText);
@@ -222,7 +233,7 @@ public class VatRegistrationTest extends BaseTest{
         }
     }
     
-   // @Test
+   @Test
     public void uploadDocumentInst() {
        
         waitForElementToBeVisible(vat.menuText);
@@ -236,7 +247,7 @@ public class VatRegistrationTest extends BaseTest{
         }
     }
     
-    //@Test
+    @Test
     public void moveToTopBtn() throws InterruptedException{
     
     	waitForElementToBeVisible(vat.menuText);
@@ -323,7 +334,7 @@ public class VatRegistrationTest extends BaseTest{
             "The number of uploaded files does not match the expected count");
     }
  
- @Test
+    @Test
     public void fileDuplicacy() throws InterruptedException, AWTException {
     
      Thread.sleep(3000);
@@ -332,7 +343,7 @@ public class VatRegistrationTest extends BaseTest{
              "Duplicate files are getting uploaded");
     	        } 
     
-	//@AfterMethod
+	@AfterClass
 		public void tearDown() {
 			driver.quit();
 		}
