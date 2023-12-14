@@ -29,6 +29,9 @@ public class LoginPageLocators {
 	
 	@FindBy(name = "username")
 	public WebElement userName;
+	
+	@FindBy(xpath = "//app-sidebar/div[1]/div[1]/a[1]/span[2]/img")
+	public WebElement vatLogo;
 
 	@FindBy(name = "password")
 	public WebElement password1;
@@ -51,8 +54,18 @@ public class LoginPageLocators {
 	@FindBy(xpath = "//span[contains(text(),'Next')]")
 	public WebElement nextButton;
 
+	@FindBy(xpath = "//app-vat-registration/section/h1")
+	public WebElement vatRegistTitle;
+	
 	@FindBy(tagName = "a")
 	public List<WebElement> links;
+	
+	//place holders
+	@FindBy(xpath = "//section/div/div/div[1]/form/div[1]/label")
+	public WebElement userP;
+	
+	@FindBy(xpath = "//section/div/div/div[1]/form/div[2]/label")
+	public WebElement passP;
 
 	public void enterUsername(String username) {
 		userName.sendKeys(username);
@@ -67,15 +80,17 @@ public class LoginPageLocators {
 		password1.clear();
 	}
 
-	public void loginApplication(String username, String password) {
+	public void loginApplication(String username, String password) throws InterruptedException {
 		userName.sendKeys(username);
 		password1.sendKeys(password);
+		Thread.sleep(2000);
 		loginButton.click();
 	}
 	
-	public void logout()
+	public void logout() throws InterruptedException
 	{
 		userBtn.click();
+		Thread.sleep(3000);
 		logoutbtn.click();
 	}
 
@@ -87,7 +102,7 @@ public class LoginPageLocators {
 	@FindBy(xpath = "//div/div/div[4]/h1")
 	public WebElement resetPassText;
 
-	@FindBy(xpath = "//div/div[4]/form/div[2]/div/a")
+	@FindBy(xpath = "(//a[contains(text(),'Go to login')])[1]")
 	public WebElement gotoLoginBtn;
 
 	@FindBy(className = "text-md-start")

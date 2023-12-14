@@ -284,9 +284,4 @@ public class VATFilingTest extends BaseTest {
 		Assert.assertNotEquals(colorBeforeHover, colorAfterHover, "background-color did not change on hover for Submit Button");
 
 	}
-
-	@AfterClass
-	public void teardown() {
-		driver.quit();
-	}
 }

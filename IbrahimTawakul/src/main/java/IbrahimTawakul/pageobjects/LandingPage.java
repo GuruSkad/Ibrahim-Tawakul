@@ -13,7 +13,7 @@ public class LandingPage {
 	}
 
 	public void goTo() {
-		driver.get("https://ibrahimtawakul.hexagonsolutions.dev/");
+		driver.get("https://test.ibrahimtawakul.hexagonsolutions.dev");
 	}
 
 }

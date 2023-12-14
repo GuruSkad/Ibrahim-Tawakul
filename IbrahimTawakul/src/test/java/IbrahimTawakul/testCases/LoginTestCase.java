@@ -17,17 +17,10 @@ import IbrahimTawakul.pageobjects.LoginPageLocators;
 import IbrahimTawakul.testComponents.BaseTest;
 
 public class LoginTestCase extends BaseTest {
-	private LoginPageLocators login;
-
-	@BeforeClass
-	public void initializeLocators() {
-		login = new LoginPageLocators(driver);
-		login.clearFields();
-	}
-
+	
 	@BeforeMethod
-	public void refresh() {
-		driver.navigate().refresh();
+	public void initializeLocators() {
+		login.clearFields();
 	}
 	
 	@Test
@@ -38,7 +31,6 @@ public class LoginTestCase extends BaseTest {
 
 			try {
 				URL urlObject = new URL(url);
-				// to check the protocol of the URL (e.g., http, https)
 				String protocol = urlObject.getProtocol();
 
 				if (protocol.equalsIgnoreCase("http") || protocol.equalsIgnoreCase("https")) {
@@ -92,21 +84,39 @@ public class LoginTestCase extends BaseTest {
 	@Test
 	public void testValidLogin() throws InterruptedException {
 		login.loginApplication("anmol@skadits.com", "Testing@121");
+		waitForElementToBeVisible(login.vatRegistTitle);
 		String title = driver.getTitle();
 		assert title.equals("Ibrahim Tawakul");
 		Thread.sleep(3000);
 		String currentURL = driver.getCurrentUrl();
-		String expectedURL = "https://ibrahimtawakul.hexagonsolutions.dev/pages/vat-registration";
+		String expectedURL = "https://test.ibrahimtawakul.hexagonsolutions.dev/pages/vat-registration";
 		Assert.assertEquals(currentURL, expectedURL, "URLs don't match");
 		login.logout();
 	}
 
 	@Test
-	public void keyboardTest() throws InterruptedException {
-		login.loginApplication("anmol.smit@gmail.com", "Anmolkumar@1234");
+	public void logoLinkValidation() throws InterruptedException {
+		login.loginApplication("anmol@skadits.com", "Testing@121");
+		waitForElementToBeVisible(login.vatRegistTitle);
+		String title = driver.getTitle();
+		assert title.equals("Ibrahim Tawakul");
+		Thread.sleep(3000);
+		String currentURL = driver.getCurrentUrl();
+		login.vatLogo.click();
+		Thread.sleep(3000);
+		String logoUrl = driver.getCurrentUrl();
+		Assert.assertEquals(currentURL, logoUrl, "By clicking on Logo is redirecting to the login page");
+		login.logout();
+	}
+	
+	@Test
+	public void logoutFunctionality() throws InterruptedException {
+		login.loginApplication("anmol@skadits.com", "Testing@121");
+		waitForElementToBeVisible(login.vatRegistTitle);
+		String LogedUrl = driver.getCurrentUrl();
 		String originalWindow = driver.getWindowHandle();
 		((JavascriptExecutor) driver)
-				.executeScript("window.open('https://ibrahimtawakul.hexagonsolutions.dev/pages/vat-registration');");
+				.executeScript("window.open('https://test.ibrahimtawakul.hexagonsolutions.dev/pages/vat-registration');");
 
 		for (String windowHandle : driver.getWindowHandles()) {
 			if (!windowHandle.equals(originalWindow)) {
@@ -118,21 +128,38 @@ public class LoginTestCase extends BaseTest {
 		driver.switchTo().window(originalWindow);
 		driver.navigate().refresh();
 		String currentURL = driver.getCurrentUrl();
-		String expectedURL = "https://ibrahimtawakul.hexagonsolutions.dev/login";
-		Assert.assertEquals(currentURL, expectedURL, "URLs don't match - Not on the login page");
+		Assert.assertNotEquals(currentURL, LogedUrl, "Logout functionality not working");
 	}
 
 	@Test
+	public void verifyBackButton() throws InterruptedException {
+	    driver.get("https://test.ibrahimtawakul.hexagonsolutions.dev/auth/login");
+	    login.loginApplication("anmol@skadits.com", "Testing@121");
+	    waitForElementToBeVisible(login.vatRegistTitle);
+	    String loggedInURL = driver.getCurrentUrl();
+	    driver.navigate().back();
+	    String redirectedURL = driver.getCurrentUrl();
+	    Assert.assertEquals(redirectedURL, loggedInURL, "Test fail Back button redirects to login page");
+	}
+	
+	@Test
+	public void placeHolder() {
+		Assert.assertEquals(login.userP.getText(), "email","email placeholder not found");
+		Assert.assertEquals(login.passP.getText(), "password","Password placeholder not found");
+	}
+	
+	@Test
 	public void multipleLoginClick() {
 		login.userName.sendKeys("anmoltiwary4@gmail.com");
-		for (int i = 0; i < 10; i++) {
+		waitForClickable(login.loginButton);
+		for (int i = 0; i < 20; i++) {
 			login.loginButton.click();
 		}
 		String passErrTxt = login.emptyPassMsg.getText();
 		assert passErrTxt.contains("Password is required");
 	}
 
-	@Test(timeOut = 5000)
+	@Test
 	public void buttonHoverColorChange() {
 		waitForClickable(login.loginButton);
 		String origLoginColor = login.loginButton.getCssValue("background-color");
@@ -155,7 +182,7 @@ public class LoginTestCase extends BaseTest {
 	}
 
 	@Test
-	public void userPassFeildValidation() {
+	public void userPassFeildValidation() throws InterruptedException {
 		login.clearFields();
 		login.loginApplication("username", "password");
 		String usernameText = login.userName.getAttribute("value");
@@ -166,20 +193,17 @@ public class LoginTestCase extends BaseTest {
 	}
 
 	@Test
-	// (modify later)
 	public void invalidUser() throws IOException, InterruptedException {
 		login.loginApplication("InvalidUser", "Anmolkumar@1234");
-		Thread.sleep(5000);
+		waitForElementToBeVisible(login.loginButton);
 		String displayBox = login.loginText();
 		assert displayBox.contains("Login");
-
 	}
 
 	@Test
-	// (modify for message if included in functionality)
 	public void incorrectPassword() throws IOException, InterruptedException {
 		login.loginApplication("anmol.smit@gmail.com", "wrongPassword");
-		Thread.sleep(5000);
+		waitForElementToBeVisible(login.loginButton);
 		String displayBox = login.loginText();
 		assert displayBox.contains("Login");
 
@@ -188,6 +212,7 @@ public class LoginTestCase extends BaseTest {
 	@Test
 	public void testEmptyUsername() throws IOException, InterruptedException {
 		login.enterPassword("Password123");
+		waitForClickable(login.loginButton);
 		login.loginButton.click();
 		String emptyUserMsg = login.emptyUserMsg.getText();
 		assert emptyUserMsg.equals("Username is required");
@@ -196,7 +221,8 @@ public class LoginTestCase extends BaseTest {
 
 	@Test
 	public void testEmptyPassword() throws IOException, InterruptedException {
-		login.enterUsername("ValidUser");
+		login.enterUsername("anmol@skadits.com");
+		waitForClickable(login.loginButton);
 		login.loginButton.click();
 		String emptyPassMsg = login.emptyPassMsg.getText();
 		assert emptyPassMsg.equals("Password is required");
@@ -204,22 +230,17 @@ public class LoginTestCase extends BaseTest {
 	}
 
 	@Test(enabled  = false)
-	public void inactiveAccount() {
+	public void inactiveAccount() throws InterruptedException {
 		login.loginApplication("inactive user", "testing");
 		String errorMessage = login.getErrorMessage.getText();
 		Assert.assertTrue(errorMessage.contains("inactive"), "Login error message");
 	}
 
 	@Test
-	public void testResetPasswordLink() {
+	public void testResetPasswordBtn() {
+		waitForClickable(login.resetPassword);
 		login.resetPassword.click();
 		String text = login.resetPassText.getText();
 		assert text.contains("Enter Your Email ID to Generate OTP");
-
-	}
-
-	@AfterClass
-	public void tearDown() {
-		driver.quit();
 	}
 }

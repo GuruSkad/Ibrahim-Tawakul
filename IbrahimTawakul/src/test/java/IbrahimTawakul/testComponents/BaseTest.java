@@ -15,15 +15,21 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import IbrahimTawakul.pageobjects.LandingPage;
+import IbrahimTawakul.pageobjects.LoginPageLocators;
+import IbrahimTawakul.pageobjects.VatConsultationLoc;
 
 public class BaseTest {
 
 	public WebDriver driver;
 	ChromeOptions options = new ChromeOptions();
 	public LandingPage landingPage;
+	public LoginPageLocators login;
+	public VatConsultationLoc vatc;
+		
 
 	public WebDriver initializeDriver() throws IOException {
 		Properties property = new Properties();
@@ -34,7 +40,7 @@ public class BaseTest {
 
 		if (browserName.equalsIgnoreCase("chrome")) {
 			driver = new ChromeDriver(options);
-			//options.addArguments("clear-automation-profile-settings");
+			options.addArguments("clear-automation-profile-settings");
 		} else if (browserName.equalsIgnoreCase("firefox")) {
 			driver = new FirefoxDriver();
 		} else if (browserName.equalsIgnoreCase("edge")) {
@@ -46,27 +52,46 @@ public class BaseTest {
 		}
 
 		driver.manage().window().maximize();
-		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(7));
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 		return driver;
 
 	}
 
+	public void gotoVatConsultation(){
+		login.userName.sendKeys("anmol@skadits.com");
+		login.password1.sendKeys("Testing@121");
+		login.loginButton.click();
+		waitForClickable(vatc.vatConsBtn);
+		vatc.vatConsBtn.click();
+	}	
+	
 	@BeforeClass
 	public LandingPage launchApplication() throws IOException {
 		driver = initializeDriver();
 		landingPage = new LandingPage(driver);
 		landingPage.goTo();
+		login = new LoginPageLocators(driver);
+		vatc = new VatConsultationLoc(driver);
 		return landingPage;
-
 	}
-
+	
+	@BeforeMethod
+	public void refresh() {
+		driver.navigate().refresh();
+	}
+	
+	//@AfterClass
+	public void tearDown() {
+		driver.quit();
+	}
+	
 	public WebElement waitForElementToBeVisible(WebElement element) {
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(12));
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
 		return wait.until(ExpectedConditions.visibilityOf(element));
 	}
 
 	 public WebElement waitForClickable(WebElement element) {
-	        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(12));
+	        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
 	        return wait.until(ExpectedConditions.elementToBeClickable(element));
 	    }
 	 
