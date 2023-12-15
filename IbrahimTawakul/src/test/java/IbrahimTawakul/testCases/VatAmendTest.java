@@ -1,49 +1,24 @@
 package IbrahimTawakul.testCases;
 
-import java.awt.AWTException;
-
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
-
-import IbrahimTawakul.pageobjects.LoginPageLocators;
-import IbrahimTawakul.pageobjects.VatAmendmentLocators;
 import IbrahimTawakul.testComponents.BaseTest;
 
-public class VatAmendTest extends BaseTest {
-	private LoginPageLocators login;
-	private VatAmendmentLocators vatA;
-	private SoftAssert softAssert;
-	private Actions action;
+public class VatAmendTest extends BaseTest {	
+	
 
 	@BeforeClass
-	public void initilazeLocators() throws AWTException, InterruptedException {
-		login = new LoginPageLocators(driver);
-		vatA = new VatAmendmentLocators(driver);
-		action = new Actions(driver);
-		softAssert = new SoftAssert();
-		gotoVatAmend();
-	}
-
-	public void gotoVatAmend() throws InterruptedException {
-		login.userName.sendKeys("anmol@skadits.com");
-		login.password1.sendKeys("Testing@121");
-		login.loginButton.click();
-		Thread.sleep(4000);
-		vatA.vatAnmdBtn.click();
+	public void start() throws InterruptedException {
+		goToPage("vatamend");
 	}
 	
 	@Test
 	public void titleValidation() {
 		Assert.assertEquals(vatA.pageHeading.getText().trim(), "VAT Amendment", "Page title not found or not correct");
 	}
-	
-	
-
 	
 	@Test
 	public void placeholderVerification() throws InterruptedException {
@@ -186,11 +161,5 @@ public class VatAmendTest extends BaseTest {
 		boolean isCursorOnElement1 = vatA.ordersBtn.equals(driver.switchTo().activeElement());
         Assert.assertTrue(isCursorOnElement1, "Cursor should be on orders tab but found on VAT Amendment");
 
-	}
-	
-	@AfterClass
-	public void teardown()
-	{
-		driver.quit();
 	}
 }

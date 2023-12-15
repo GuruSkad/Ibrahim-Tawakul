@@ -1,5 +1,7 @@
 package IbrahimTawakul.testComponents;
 
+import java.awt.AWTException;
+import java.awt.Robot;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.Duration;
@@ -13,15 +15,20 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
+import org.testng.asserts.SoftAssert;
+
 import IbrahimTawakul.pageobjects.LandingPage;
 import IbrahimTawakul.pageobjects.LoginPageLocators;
 import IbrahimTawakul.pageobjects.SignUpPageLocators;
+import IbrahimTawakul.pageobjects.VatAmendmentLocators;
 import IbrahimTawakul.pageobjects.VatConsultationLoc;
+import IbrahimTawakul.pageobjects.VatFilingLocator;
 
 public class BaseTest {
 
@@ -30,7 +37,14 @@ public class BaseTest {
 	public LandingPage landingPage;
 	public LoginPageLocators login;
 	public VatConsultationLoc vatc;
-	public SignUpPageLocators signUp;	
+	public SignUpPageLocators signUp;
+	public VatFilingLocator vatf;
+	public VatAmendmentLocators vatA;
+	public Actions action;
+	public SoftAssert softAssert;
+	public Robot rb;
+	public VATRegistrationHelper helper;
+	
 
 	public WebDriver initializeDriver() throws IOException {
 		Properties property = new Properties();
@@ -57,23 +71,24 @@ public class BaseTest {
 		return driver;
 
 	}
+	
+	
 
-	public void gotoVatConsultation(){
-		login.userName.sendKeys("anmol@skadits.com");
-		login.password1.sendKeys("Testing@121");
-		login.loginButton.click();
-		waitForClickable(vatc.vatConsBtn);
-		vatc.vatConsBtn.click();
-	}	
 	
 	@BeforeClass
-	public LandingPage launchApplication() throws IOException {
+	public LandingPage launchApplication() throws IOException, AWTException {
 		driver = initializeDriver();
 		landingPage = new LandingPage(driver);
 		landingPage.goTo();
 		login = new LoginPageLocators(driver);
 		vatc = new VatConsultationLoc(driver);
 		signUp = new SignUpPageLocators(driver);
+		vatf = new VatFilingLocator(driver);
+		vatA = new VatAmendmentLocators(driver);
+		action = new Actions(driver);
+		softAssert = new SoftAssert();
+		rb = new Robot();
+		helper = new VATRegistrationHelper(driver);
 		return landingPage;
 	}
 	
@@ -86,6 +101,32 @@ public class BaseTest {
 	public void tearDown() {
 		driver.quit();
 	}
+	
+	
+	
+	public void goToPage(String pageName) throws InterruptedException {
+	    login.loginApplication("anmol@skadits.com", "Testing@121");
+	    
+	    switch (pageName.toLowerCase()) {
+	        case "vatconsultation":
+	            waitForClickable(vatc.vatConsBtn);
+	            vatc.vatConsBtn.click();
+	            break;
+	        case "vatfiling":
+	        	waitForClickable(vatf.vatFilingBtn);
+	        	vatf.vatFilingBtn.click();
+	            break;
+	        case "vatamend":
+	        	waitForClickable(vatA.vatAnmdBtn);
+	        	vatA.vatAnmdBtn.click();
+	            break;
+	        default:
+	            System.out.println("Page not found or invalid page name");
+	            break;
+	    }	
+	    //eg: goToPage("vatconsultation");
+	}
+	
 	
 	public WebElement waitForElementToBeVisible(WebElement element) {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));

@@ -26,30 +26,11 @@ import IbrahimTawakul.testComponents.VATRegistrationHelper;
 import IbrahimTawakul.testComponents.BaseTest.ScrollType;
 
 public class VATFilingTest extends BaseTest {
-	private LoginPageLocators login;
-	private Robot rb;
-	private VATRegistrationHelper helper;
-	private VatFilingLocator vatf;
-	private SoftAssert softAssert;
-	private Actions action;
+	
 
 	@BeforeClass
-	public void initilazeLocatprs() throws AWTException, InterruptedException {
-		login = new LoginPageLocators(driver);
-		rb = new Robot();
-		helper = new VATRegistrationHelper(driver);
-		vatf = new VatFilingLocator(driver);
-		action = new Actions(driver);
-		gotoVatFiling();
-		softAssert = new SoftAssert();
-	}
-
-	public void gotoVatFiling() throws InterruptedException {
-		login.userName.sendKeys("anmol@skadits.com");
-		login.password1.sendKeys("Testing@121");
-		login.loginButton.click();
-		Thread.sleep(4000);
-		vatf.vatFilingBtn.click();
+	public void start() throws AWTException, InterruptedException {		
+		goToPage("vatfiling");
 	}
 
 	public void vatUploadFiles(VatFilingLocator vatf, String[] filePaths) throws InterruptedException, AWTException {

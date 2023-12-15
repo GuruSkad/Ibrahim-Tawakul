@@ -43,7 +43,6 @@ public class SignUpTestCase extends BaseTest {
 
 	@Test
 	public void editBoxValidation() {
-		signUp.gotoSignup();
 		String text1 = "Abb Company";
 		String mobileNumber = "1234567890";
 		String email1 = "anmol1@mail.com";
@@ -72,8 +71,6 @@ public class SignUpTestCase extends BaseTest {
 
 	@Test(dataProviderClass = SignUpTestData.class, dataProvider = "validSignUpData")
 	public void validSignUpTest(String companyName, String email, String mobile, String address, String city) throws InterruptedException {
-		signUp.gotoSignup();
-		signUp.clearFeilds();
 		signUp.companyName.sendKeys(companyName);
 		signUp.email.sendKeys(email);
 		signUp.contactNumber.sendKeys(mobile);
@@ -82,29 +79,14 @@ public class SignUpTestCase extends BaseTest {
 		Select stateDropdown = new Select(signUp.state);
         stateDropdown.selectByIndex(2);
         signUp.email.sendKeys(Keys.ENTER);
-//       scrollPage(ScrollType.TO_ELEMENT,signUp.submitBtn, 0, 0);
-//       waitForClickable(signUp.submitBtn);
-//        signUp.submitBtn.submit();
-        
-        String sucessMsg = signUp.confirmationText.getText();
-        System.out.println(sucessMsg);
-        signUp.confirmationText.sendKeys(Keys.TAB);
-        signUp.confirmationText.sendKeys(Keys.ENTER);
-       // signUp.continueBtn.click();
-        
-//        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-//        wait.until(ExpectedConditions.alertIsPresent());
-//
-//        Alert alert = driver.switchTo().alert();
-//        String confirmationMessage = alert.getText();
-//        alert.accept();
-//        assert confirmationMessage.contains("Email");
-
+        waitForClickable(signUp.continueBtn);
+        signUp.continueBtn.click();
+        waitForElementToBeVisible(signUp.loginText);
+        Assert.assertTrue(signUp.loginText.isDisplayed(), "Signup functionality is not working");
 	}
 
 	@Test (dataProviderClass = SignUpTestData.class, dataProvider = "unnecesarrySpace")
 	public void whiteSpace(String companyName, String email, String mobile, String address, String city) throws InterruptedException {
-		signUp.gotoSignup();
 		signUp.companyName.sendKeys(companyName);
 		signUp.email.sendKeys(email);
 		signUp.contactNumber.sendKeys(mobile);
@@ -118,10 +100,7 @@ public class SignUpTestCase extends BaseTest {
         wait.until(ExpectedConditions.alertIsPresent());
 
         Alert alert = driver.switchTo().alert();
-//        String confirmationMessage = alert.getText();
-//        alert.accept();
-//        assert confirmationMessage.contains("Email");
-		
+	
 	}
 
 	@Test (dataProviderClass = SignUpTestData.class, dataProvider = "mandatoryInfo")
@@ -148,7 +127,7 @@ public class SignUpTestCase extends BaseTest {
 //        assert confirmationMessage.contains("Email");
 	}
 
-	//@Test (dataProviderClass = SignUpTestData.class, dataProvider = "invalidEmail")
+	@Test (dataProviderClass = SignUpTestData.class, dataProvider = "invalidEmail")
 	public void invalidEmailFormat(String companyName, String email, String mobile, String address, String city) {
 		signUp.gotoSignup();
 		signUp.companyName.sendKeys(companyName);

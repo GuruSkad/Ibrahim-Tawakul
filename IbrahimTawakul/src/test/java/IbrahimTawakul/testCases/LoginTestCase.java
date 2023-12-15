@@ -144,7 +144,7 @@ public class LoginTestCase extends BaseTest {
 	
 	@Test
 	public void placeHolder() {
-		Assert.assertEquals(login.userP.getText(), "email","email placeholder not found");
+		Assert.assertEquals(login.userP.getText(), "Email ID","email placeholder not found");
 		Assert.assertEquals(login.passP.getText(), "password","Password placeholder not found");
 	}
 	

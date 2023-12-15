@@ -12,8 +12,8 @@ public class VatConsultationTest extends BaseTest{
 
 	
 	@BeforeClass
-	public void constr(){
-		gotoVatConsultation();
+	public void constr() throws InterruptedException{
+		goToPage("vatconsultation");
 	}
 	
 	@Test

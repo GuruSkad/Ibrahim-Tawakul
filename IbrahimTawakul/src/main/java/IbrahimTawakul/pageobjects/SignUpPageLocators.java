@@ -67,11 +67,14 @@ public class SignUpPageLocators {
 	@FindBy(xpath = "//h1[contains(text(),'Login')]")
 	public WebElement loginText;
 	
-	@FindBy(xpath = "//*[@id=\"swal2-html-container\"]/h3")
+	@FindBy(xpath = "//*[@id='swal2-html-container']/h3")
 	public WebElement confirmationText;
 	
-	@FindBy(xpath = "//div[5]/div/div[6]/button[1]")
+	@FindBy(xpath = "//button[normalize-space()='Continue']")
 	public WebElement continueBtn;
+	
+	@FindBy(xpath = "//button[normalize-space()='Change Email Address']")
+	public WebElement changeEmailBtn;
 	
 	public void gotoSignup() {
 		signUpButton.click();
