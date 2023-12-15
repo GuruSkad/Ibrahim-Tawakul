@@ -80,7 +80,7 @@ public class BaseTest {
 		driver.navigate().refresh();
 	}
 	
-	//@AfterClass
+	@AfterClass
 	public void tearDown() {
 		driver.quit();
 	}
