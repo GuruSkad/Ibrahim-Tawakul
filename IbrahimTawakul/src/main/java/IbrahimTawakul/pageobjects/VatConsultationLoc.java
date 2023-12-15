@@ -18,9 +18,6 @@ public class VatConsultationLoc {
 	@FindBy(linkText = "VAT Consultations")
 	public WebElement vatConsBtn;
 	
-	@FindBy(linkText = "Orders")
-	public WebElement OrderBtn;
-	
 	@FindBy(xpath = "//div/app-vat-consultation/section/h1")
 	public WebElement pageTitle;
 	
@@ -42,7 +39,7 @@ public class VatConsultationLoc {
 	@FindBy(xpath = "//input[@name='Topic']/following-sibling::label")
 	public WebElement topicp;
 	
-	@FindBy(xpath = "//div/div/div/app-vat-consultation/section/form/div/div[4]/div")
+	@FindBy(xpath = "//form/div/div[4]/div/mat-form-field/div[1]")
 	public WebElement languageBox;
 	
 	@FindBy(xpath = "//div[4]/div/mat-form-field/div[1]/div[2]/div/label")
@@ -69,8 +66,8 @@ public class VatConsultationLoc {
 	@FindBy(xpath = "//span[@title='Click to toggle']")
 	public WebElement amPm;
 	
-	@FindBy(xpath = "//div[@id='mat-select-0-panel']/mat-option")
-	public List<WebElement> languages;
+	@FindBy(xpath = "//*[@id='cdk-overlay-21']/div/mat-option[1]/span")
+	public WebElement languages;
 	
 	@FindBy(xpath = "//button[normalize-space()='No, Cancel']")
 	public WebElement cancleBtn;
@@ -84,12 +81,10 @@ public class VatConsultationLoc {
 	@FindBy(xpath = "//form/div/div[2]/div/span")
 	public WebElement timeErrMsg;
 	
-	@FindBy(xpath = "//form/div/div[3]/div/div/span")
+	@FindBy(xpath = "//form/div/div[3]/div/span")
 	public WebElement topicErrMsg;
 	
-	@FindBy(xpath = "//form/div/div[4]/div/div/span")
+	@FindBy(xpath = "//form/div/div[4]/div/span")
 	public WebElement LangErrMsg;
 	
-	@FindBy(xpath = "//div/app-order-detail-list/section/h1")
-	public WebElement orderHeading;
 }

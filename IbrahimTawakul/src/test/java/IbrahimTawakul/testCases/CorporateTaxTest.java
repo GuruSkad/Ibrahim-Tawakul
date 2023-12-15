@@ -69,7 +69,23 @@ public class CorporateTaxTest extends BaseTest {
 				Thread.sleep(3000);
 			}
 		}
-	}	
+	}
+
+//	public void submit() throws InterruptedException {
+//		scrollPage(ScrollType.TO_ELEMENT, ctl.submitBtn, 0, 0);
+//		Thread.sleep(3000);
+//		ctl.submitBtn.click();
+//		Thread.sleep(3000);
+//		Assert.assertEquals(ctl.vatAmnCnfMsg.getText(), 
+//				"Please check information before submitting!"," confirmation msg not found");
+//		ctl.finalSubmitBtn.click();
+//		Thread.sleep(5000);
+//		String url = driver.getCurrentUrl();
+//		Assert.assertEquals(url, "https://ibrahimtawakul.hexagonsolutions.dev/pages/order-list", 
+//		    "URL not matching for successful VAT deregistration");
+//		ctl.vatAnmdBtn.click();
+//		}
+	
 	
 	@Test
 	public void uiTesting() {

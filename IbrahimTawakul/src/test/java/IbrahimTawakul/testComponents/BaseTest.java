@@ -20,6 +20,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import IbrahimTawakul.pageobjects.LandingPage;
 import IbrahimTawakul.pageobjects.LoginPageLocators;
+import IbrahimTawakul.pageobjects.SignUpPageLocators;
 import IbrahimTawakul.pageobjects.VatConsultationLoc;
 
 public class BaseTest {
@@ -29,7 +30,7 @@ public class BaseTest {
 	public LandingPage landingPage;
 	public LoginPageLocators login;
 	public VatConsultationLoc vatc;
-		
+	public SignUpPageLocators signUp;	
 
 	public WebDriver initializeDriver() throws IOException {
 		Properties property = new Properties();
@@ -72,6 +73,7 @@ public class BaseTest {
 		landingPage.goTo();
 		login = new LoginPageLocators(driver);
 		vatc = new VatConsultationLoc(driver);
+		signUp = new SignUpPageLocators(driver);
 		return landingPage;
 	}
 	

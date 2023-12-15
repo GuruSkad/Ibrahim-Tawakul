@@ -18,6 +18,11 @@ import IbrahimTawakul.testComponents.BaseTest;
 
 public class LoginTestCase extends BaseTest {
 	
+	@BeforeMethod
+	public void initializeLocators() {
+		login.clearFields();
+	}
+	
 	@Test
 	public void linkValidation() {
 		SoftAssert assert1 = new SoftAssert();

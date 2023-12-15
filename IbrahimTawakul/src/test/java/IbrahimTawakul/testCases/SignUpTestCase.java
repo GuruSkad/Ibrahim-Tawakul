@@ -21,16 +21,15 @@ import IbrahimTawakul.testComponents.BaseTest;
 import IbrahimTawakul.testComponents.SignUpTestData;
 
 public class SignUpTestCase extends BaseTest {
-	private SignUpPageLocators signUp;
+	//private SignUpPageLocators signUp;
 
 	@BeforeMethod
-	public void initializeLoginPageLocators() {
-		signUp = new SignUpPageLocators(driver);
+	public void constr() {
+		signUp.gotoSignup();
 	}
 
-	//@Test
-	public void prsncOfAllFlds() {
-		signUp.gotoSignup();
+	@Test
+	public void prsncOfAllFlds() {		
 		signUp.logo.isDisplayed();
 		signUp.signUpText.isDisplayed();
 		signUp.companyName.isDisplayed();
@@ -42,7 +41,7 @@ public class SignUpTestCase extends BaseTest {
 		signUp.signUpButton.isDisplayed();
 	}
 
-	//@Test
+	@Test
 	public void editBoxValidation() {
 		signUp.gotoSignup();
 		String text1 = "Abb Company";
@@ -103,7 +102,7 @@ public class SignUpTestCase extends BaseTest {
 
 	}
 
-	//@Test (dataProviderClass = SignUpTestData.class, dataProvider = "unnecesarrySpace")
+	@Test (dataProviderClass = SignUpTestData.class, dataProvider = "unnecesarrySpace")
 	public void whiteSpace(String companyName, String email, String mobile, String address, String city) throws InterruptedException {
 		signUp.gotoSignup();
 		signUp.companyName.sendKeys(companyName);
@@ -162,7 +161,7 @@ public class SignUpTestCase extends BaseTest {
 		assert errorText.contains("Email is invalid");
 	}
 
-	//@Test(dataProviderClass = SignUpTestData.class, dataProvider = "registeredMail")
+	@Test(dataProviderClass = SignUpTestData.class, dataProvider = "registeredMail")
 	public void preRegisteredMail(String companyName, String email, String mobile, String address, String city) {
 		signUp.gotoSignup();
 		signUp.clearFeilds();
@@ -271,9 +270,4 @@ public class SignUpTestCase extends BaseTest {
 	        Assert.assertEquals(signUp.city.getText(), "City", "Placeholder for City doesn't match");
 	    }
 
-		
-	//@AfterMethod
-	public void tearDown() {
-		driver.quit();
-	}
 }
